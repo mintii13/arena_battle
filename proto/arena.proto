@@ -1,1 +1,85 @@
-// Proto definition placeholder
+syntax = "proto3";
+
+package arena;
+
+// Basic data types
+message Vec2 {
+  float x = 1;
+  float y = 2;
+}
+
+message Rect {
+  float x = 1;
+  float y = 2;
+  float width = 3;
+  float height = 4;
+}
+
+// Game state observation sent to AI bots
+message Observation {
+  uint32 tick = 1;                    // Game tick number
+  Vec2 self_pos = 2;                  // Bot's position
+  float self_hp = 3;                  // Bot's health (0-100)
+  Vec2 enemy_pos = 4;                 // Enemy position
+  float enemy_hp = 5;                 // Enemy health
+  repeated Vec2 bullets = 6;          // All bullets in arena
+  repeated float walls = 7;           // Wall data [x,y,w,h,x,y,w,h,...]
+  bool has_line_of_sight = 8;         // Can see enemy directly
+  float arena_width = 9;              // Arena boundaries
+  float arena_height = 10;
+}
+
+// Action sent from AI bot to game server
+message Action {
+  Vec2 thrust = 1;         // Movement vector (-1 to 1)
+  float aim_angle = 2;     // Aim direction in radians
+  bool fire = 3;           // Whether to shoot
+}
+
+// Bot registration message
+message BotRegistration {
+  string player_id = 1;
+  string bot_name = 2;
+  bool self_play_mode = 3;
+  int32 clone_count = 4;   // Number of clones for self-play
+}
+
+// Registration response
+message RegistrationResponse {
+  bool success = 1;
+  string message = 2;
+  int32 bot_id = 3;
+}
+
+// Game event (death, kill, etc.)
+message GameEvent {
+  string type = 1;         // "death", "kill", "respawn"
+  int32 bot_id = 2;
+  float reward = 3;
+  bool done = 4;
+  int32 related_bot_id = 5; // For kills: victim_id, for deaths: killer_id
+}
+
+// Game statistics
+message GameStats {
+  int32 total_kills = 1;
+  int32 total_deaths = 2;
+  float kill_death_ratio = 3;
+  int32 games_played = 4;
+  float average_survival_time = 5;
+}
+
+// Arena Battle Service
+service ArenaBattleService {
+  // Bot registration and connection
+  rpc RegisterBot(BotRegistration) returns (RegistrationResponse);
+  
+  // Main game loop - bidirectional streaming
+  rpc PlayGame(stream Action) returns (stream Observation);
+  
+  // Event notification
+  rpc SendEvent(GameEvent) returns (GameEvent);
+  
+  // Get game statistics
+  rpc GetStats(BotRegistration) returns (GameStats);
+}

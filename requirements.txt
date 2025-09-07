@@ -1,0 +1,11 @@
+torch>=1.13.0
+numpy>=1.21.0
+grpcio>=1.50.0
+grpcio-tools>=1.50.0
+protobuf>=4.0.0
+
+# Visualization
+pygame>=2.1.0
+
+# Optional: For better logging
+rich>=12.0.0
