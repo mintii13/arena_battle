@@ -1,5 +1,5 @@
 # Arena Battle Game
-# ARENA BATTLE GAME - FINAL PROJECT DESCRIPTION
+# ARENA BATTLE GAME - PROJECT DESCRIPTION
 
 📋 PROJECT OVERVIEW:
 Arena Battle Game là một 2D top-down battle arena game với AI bots học real-time 
