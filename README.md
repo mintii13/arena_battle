@@ -1,18 +1,16 @@
 # Arena Battle Game
 # ARENA BATTLE GAME - FINAL PROJECT DESCRIPTION
 
-"""
 📋 PROJECT OVERVIEW:
 Arena Battle Game là một 2D top-down battle arena game với AI bots học real-time 
 thông qua reinforcement learning. Project sử dụng server-managed matchmaking architecture
 với game server quản lý tất cả logic matching và AI bots chỉ cần connect với model của họ.
-"""
 
-# ======================================
+# =====================================
 # 🏗️ PROJECT ARCHITECTURE
-# ======================================
+# =====================================
 
-ARCHITECTURE_OVERVIEW = """
+ARCHITECTURE_OVERVIEW
 ┌─────────────────────────────────────────────────────────────┐
 │                    GAME SERVER (Central Hub)                │
 │  ┌─────────────────┐  ┌─────────────────┐  ┌──────────────┐  │
@@ -34,13 +32,12 @@ ARCHITECTURE_OVERVIEW = """
     │ • Auto Movement  │      │ • Auto Movement  │
     │ • Real-time Learn│      │ • Real-time Learn│
     └──────────────────┘      └──────────────────┘
-"""
 
-# ======================================
+# =====================================
 # 📁 PROJECT STRUCTURE
-# ======================================
+# =====================================
 
-PROJECT_STRUCTURE = """
+PROJECT_STRUCTURE
 arena_battle_game/
 ├── requirements.txt                 # Dependencies
 ├── README.md                       # Project documentation
@@ -92,13 +89,12 @@ arena_battle_game/
     ├── .gitkeep                   # Keep directory
     ├── checkpoints/               # Training checkpoints
     └── backups/                   # Model backups
-"""
 
-# ======================================
+# =====================================
 # 🎯 GAME MECHANICS
-# ======================================
+# =====================================
 
-GAME_MECHANICS = """
+GAME_MECHANICS
 🏟️ ARENA:
 • 2D top-down view (800x600 pixels)
 • Fixed walls and obstacles for strategic cover
@@ -125,13 +121,12 @@ GAME_MECHANICS = """
 • Stillness penalty (-0.05) vs movement bonus (+0.01) in rewards
 • Network architecture biased toward action with higher std deviation
 • Random exploration added to small movements automatically
-"""
 
-# ======================================
+# =====================================
 # 🧠 AI SYSTEM
-# ======================================
+# =====================================
 
-AI_SYSTEM = """
+AI_SYSTEM
 🔬 PPO ALGORITHM:
 • Actor-Critic architecture with shared feature extractor
 • Observation space: 32-dimensional normalized vectors
@@ -163,13 +158,12 @@ AI_SYSTEM = """
 • GAE (Generalized Advantage Estimation) for value function
 • Experience replay buffer with real-time mini-batch updates
 • Model improvements applied instantly on next respawn
-"""
 
-# ======================================
+# =====================================
 # 🌐 NETWORKING ARCHITECTURE
-# ======================================
+# =====================================
 
-NETWORKING_DESIGN = """
+NETWORKING_DESIGN
 🔌 gRPC BIDIRECTIONAL STREAMING:
 • Client → Server: Action stream (thrust, aim, fire) at 60 FPS
 • Server → Client: Observation stream (game state) at 60 FPS
@@ -197,13 +191,12 @@ Player → RegisterBot() → Server assigns match → PlayGame() stream starts
 │
 ├── Self-Play Match: Creates 3 bots (1 original + 2 clones)
 └── PvP Match: Creates 1 bot, waits for opponent
-"""
 
-# ======================================
+# =====================================
 # 🎨 USER INTERFACE
-# ======================================
+# =====================================
 
-UI_SYSTEM = """
+UI_SYSTEM
 🖥️ GAME SERVER UI (Pygame):
 • Real-time arena visualization (800x600 game area)
 • Left panel: Statistics, controls, bot list
@@ -231,13 +224,12 @@ UI_SYSTEM = """
 • Auto-connect to server, server handles matchmaking
 • Training progress logged to console
 • Model auto-save on significant learning events
-"""
 
-# ======================================
+# =====================================
 # 🚀 EXECUTION WORKFLOW
-# ======================================
+# =====================================
 
-EXECUTION_FLOW = """
+EXECUTION_FLOW
 🔧 SETUP:
 1. Install dependencies: pip install -r requirements.txt
 2. Generate protobuf: python proto/generate.py
@@ -272,13 +264,12 @@ EXECUTION_FLOW = """
 • Test different algorithms by swapping network implementations
 • Compare performance across different training approaches
 • Export trained models for competition/sharing
-"""
 
-# ======================================
+# =====================================
 # 🎯 KEY INNOVATIONS
-# ======================================
+# =====================================
 
-KEY_FEATURES = """
+KEY_FEATURES
 🔥 ARCHITECTURAL INNOVATIONS:
 • Server-Managed Matchmaking: Eliminates client-side mode selection complexity
 • Simplified AI Client: Focus purely on model and learning, not infrastructure
@@ -302,13 +293,12 @@ KEY_FEATURES = """
 • Live Visualization: Watch AI learning in real-time
 • Instant Speed Scaling: Change training speed without restart
 • Plug-and-play Models: Load any trained model and start playing
-"""
 
-# ======================================
+# =====================================
 # 🔧 CUSTOMIZATION POINTS
-# ======================================
+# =====================================
 
-CUSTOMIZATION_GUIDE = """
+CUSTOMIZATION_GUIDE
 🧠 ADD NEW AI ALGORITHMS:
 1. Implement trainer interface in ai_bot/training/
 2. Replace PPOTrainer in ai_bot/main.py
