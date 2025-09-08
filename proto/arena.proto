@@ -36,12 +36,10 @@ message Action {
   bool fire = 3;           // Whether to shoot
 }
 
-// Bot registration message
+// Bot registration message 
 message BotRegistration {
   string player_id = 1;
   string bot_name = 2;
-  bool self_play_mode = 3;
-  int32 clone_count = 4;   // Number of clones for self-play
 }
 
 // Registration response
