@@ -1,4 +1,3 @@
-# Main server entry
 import asyncio
 import logging
 import sys
@@ -19,7 +18,7 @@ try:
     from proto import arena_pb2, arena_pb2_grpc
     print("✅ Proto import successful in server main")
 except ImportError as e:
-    print(f"❌ Proto import failed at main: {e}")
+    print(f"⚠️ Proto import failed at main: {e}")
     print(f"Proto dir: {proto_dir}")
     print(f"Files exist: {os.path.exists(os.path.join(proto_dir, 'arena_pb2.py'))}")
     sys.exit(1)
@@ -83,20 +82,38 @@ class GameEngine:
         self.running = False
 
 async def main():
-    """Main entry point for PvP Arena Battle Server"""
+    """Main entry point for PvP Arena Battle Server với JSON logging options"""
     import argparse
     
-    parser = argparse.ArgumentParser(description='Arena Battle Game Server - PvP Only')
+    parser = argparse.ArgumentParser(description='Arena Battle Game Server - PvP Only with JSON Logging')
     parser.add_argument('--port', type=int, default=50051, help='Server port')
     parser.add_argument('--no-ui', action='store_true', help='Run without UI (headless)')
     parser.add_argument('--log-level', default='INFO', help='Log level')
     parser.add_argument('--min-players', type=int, default=2, help='Minimum players to start match')
     parser.add_argument('--max-players', type=int, default=8, help='Maximum players per match')
     
+    # JSON Logging options
+    parser.add_argument('--enable-json-logging', action='store_true', default=True, 
+                       help='Enable JSON logging of gRPC data (default: True)')
+    parser.add_argument('--disable-json-logging', action='store_true', 
+                       help='Disable JSON logging completely')
+    parser.add_argument('--log-rotation-minutes', type=int, default=5,
+                       help='JSON log file rotation interval in minutes (default: 5)')
+    parser.add_argument('--log-dir', default='logs/server_grpc_data',
+                       help='Directory for JSON log files')
+    
     args = parser.parse_args()
+    
+    # Determine logging settings
+    enable_logging = args.enable_json_logging and not args.disable_json_logging
     
     # Set log level
     logging.getLogger().setLevel(getattr(logging, args.log_level))
+    
+    # Create log directory if logging enabled
+    if enable_logging:
+        log_path = Path(args.log_dir)
+        log_path.mkdir(parents=True, exist_ok=True)
     
     # Create game engine
     game_engine = GameEngine()
@@ -116,6 +133,22 @@ async def main():
     logger.info("⚔️ Mode: PvP Only (no self-play)")
     logger.info("🎯 Waiting for AI bots to connect...")
     
+    # JSON Logging info
+    if enable_logging:
+        logger.info("📝 ========== JSON LOGGING ENABLED ==========")
+        logger.info(f"📁 Log directory: {args.log_dir}")
+        logger.info(f"⏰ Rotation interval: {args.log_rotation_minutes} minutes")
+        logger.info("📊 Logged data:")
+        logger.info("   • Bot registrations & disconnections")
+        logger.info("   • All observations sent to bots")
+        logger.info("   • All actions received from bots")
+        logger.info("   • Game events (kills, deaths, matches)")
+        logger.info("   • Match events (start, end, player assignments)")
+        logger.info("   • Error events & debugging info")
+        logger.info("📝 =========================================")
+    else:
+        logger.info("📝 JSON Logging: DISABLED")
+    
     if renderer:
         logger.info("🎨 UI Controls: 1,2,3,4 (speed), D (debug), ESC (quit)")
     
@@ -125,7 +158,7 @@ async def main():
         # Start all tasks
         tasks = [
             game_engine.run(),
-            run_server(game_engine, args.port)
+            run_server(game_engine, args.port, enable_logging=enable_logging)
         ]
         
         if renderer:
@@ -135,6 +168,8 @@ async def main():
         
     except KeyboardInterrupt:
         logger.info("🛑 Server stopped by user")
+        if enable_logging:
+            logger.info("📁 JSON log files saved to: " + args.log_dir)
     finally:
         game_engine.stop()
         if renderer:
