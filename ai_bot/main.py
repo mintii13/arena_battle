@@ -90,6 +90,8 @@ async def main():
     parser.add_argument('--list-models', action='store_true', help='List available models and exit')
     parser.add_argument('--models-dir', default='models/checkpoints', help='Models directory')
     parser.add_argument('--save-interval', type=int, default=300, help='Auto-save interval in seconds')
+    parser.add_argument('--room-id', required=True, help='Room ID to join')
+    parser.add_argument('--room-password', required=True, help='Room password')
     
     args = parser.parse_args()
     
@@ -163,7 +165,7 @@ async def main():
     buffer = ExperienceBuffer()
     
     # Create enhanced bot client
-    bot_client = BotClient(args.player_id, args.bot_name, trainer, obs_processor)
+    bot_client = BotClient(args.player_id, args.bot_name, trainer, obs_processor, args.room_id, args.room_password)
     
     # Set auto-save interval
     bot_client.save_interval = args.save_interval

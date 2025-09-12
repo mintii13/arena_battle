@@ -19,7 +19,7 @@ except ImportError as e:
     print(f"⚠️ Proto import failed at server: {e}")
     sys.exit(1)
 
-from .matchmaking import ServerMatchmaker, MatchState
+from .room_manager import RoomManager
 # Import JSON logger
 from ..logging.json_logger import ServerJSONLogger, observation_to_dict, action_to_dict
 
@@ -27,10 +27,10 @@ logger = logging.getLogger(__name__)
 
 class BotConnection:
     """Represents a connected bot client with timing info"""
-    def __init__(self, bot_id: int, player_id: str, match_id: str):
+    def __init__(self, bot_id: int, player_id: str, room_id: str):
         self.bot_id = bot_id
         self.player_id = player_id
-        self.match_id = match_id
+        self.room_id = room_id  # Changed from match_id
         self.is_active = True
         self.last_action_time = asyncio.get_event_loop().time()
         self.connection_time = asyncio.get_event_loop().time()
@@ -39,10 +39,22 @@ class ArenaBattleServicer(arena_pb2_grpc.ArenaBattleServiceServicer):
     """gRPC service với JSON logging cho tất cả gRPC data"""
     
     def __init__(self, game_engine, enable_logging=True):
+        print("DEBUG: ArenaBattleServicer.__init__ called")
         self.game_engine = game_engine
-        self.matchmaker = ServerMatchmaker(min_players=2, max_players=8)
+        
+        try:
+            print("DEBUG: Creating RoomManager...")
+            self.room_manager = RoomManager()
+            print(f"DEBUG: RoomManager created with {len(self.room_manager.rooms)} rooms")
+        except Exception as e:
+            print(f"DEBUG: RoomManager failed: {e}")
+            import traceback
+            traceback.print_exc()
+            
         self.connections: Dict[int, BotConnection] = {}
         self.waiting_connections: Dict[str, BotConnection] = {}
+        
+        print("DEBUG: ArenaBattleServicer init completed")
         
         # Initialize JSON logger
         self.json_logger = None
@@ -52,7 +64,6 @@ class ArenaBattleServicer(arena_pb2_grpc.ArenaBattleServiceServicer):
                 rotation_minutes=5
             )
             logger.info("📝 Server JSON logging enabled")
-        
     async def RegisterBot(self, request, context):
         """Register bot with JSON logging"""
         try:
@@ -61,55 +72,59 @@ class ArenaBattleServicer(arena_pb2_grpc.ArenaBattleServiceServicer):
             
             logger.info(f"🤖 Bot registration request: {player_id} ({bot_name})")
             
-            # Register with matchmaker
-            match_result = self.matchmaker.register_player(player_id, bot_name)
-            
-            if not match_result['success']:
-                logger.warning(f"⚠️ Registration failed: {match_result['message']}")
-                
-                # Log failed registration
+            # Parse room info from bot_name hack
+            parts = bot_name.split('|')
+            if len(parts) == 3:
+                actual_bot_name, room_id, room_password = parts
+            else:
                 if self.json_logger:
                     self.json_logger.log_bot_registration(
-                        player_id, bot_name, 0, False, match_result['message']
+                        player_id, bot_name, 0, False, "❌ Invalid room connection format"
                     )
-                
                 return arena_pb2.RegistrationResponse(
-                    success=False,
-                    message=match_result['message'],
-                    bot_id=0
+                    success=False, message="❌ Invalid room connection format", bot_id=0
+                )
+
+            room_result = self.room_manager.join_room(player_id, actual_bot_name, room_id, room_password)
+
+            if not room_result['success']:
+                if self.json_logger:
+                    self.json_logger.log_bot_registration(
+                        player_id, actual_bot_name, 0, False, room_result['message']
+                    )
+                return arena_pb2.RegistrationResponse(
+                    success=False, message=room_result['message'], bot_id=0
                 )
             
             # Create bot in game engine
-            bot_id = self.game_engine.game_state.add_bot(player_id, bot_name)
-            
-            # Get match info
-            match_id = match_result['match_id']
-            match_info = self.matchmaker.get_match_info(player_id)
+            room_state = self.game_engine.get_or_create_room_state(room_id, room_result['arena_config'])
+            bot_id = room_state.add_bot(player_id, actual_bot_name, room_result['arena_config'], room_id)
+            # Also add to default state for compatibility
+            default_bot_id = self.game_engine.game_state.add_bot(player_id, actual_bot_name, room_result['arena_config'], room_id)
             
             # Log successful registration
             if self.json_logger:
                 self.json_logger.log_bot_registration(
-                    player_id, bot_name, bot_id, True, match_result['message']
+                    player_id, actual_bot_name, bot_id, True, room_result['message']
                 )
                 
-                # Log match assignment
-                self.json_logger.log_match_event(match_id, "player_assigned", {
+                self.json_logger.log_match_event(room_result['room_id'], "player_assigned", {
                     "player_id": player_id,
                     "bot_id": bot_id,
-                    "bot_name": bot_name,
-                    "players_in_match": match_result['players_in_match'],
-                    "match_state": match_result['match_state']
+                    "bot_name": actual_bot_name,
+                    "players_in_room": room_result['players_in_room'],
+                    "room_id": room_result['room_id']
                 })
             
             # Log registration success
             logger.info(f"✅ {player_id} registered → Bot ID: {bot_id}")
-            logger.info(f"📊 Match: {match_id} ({match_result['players_in_match']} players)")
-            logger.info(f"🎯 Status: {match_result['message']}")
+            logger.info(f"🏠 Room: {room_result['room_id']} ({room_result['players_in_room']} players)")
+            logger.info(f"🎯 Status: {room_result['message']}")
             
             return arena_pb2.RegistrationResponse(
                 success=True,
-                message=match_result['message'],
-                bot_id=bot_id
+                message=room_result['message'],
+                bot_id=room_result['bot_id']
             )
             
         except Exception as e:
@@ -118,7 +133,7 @@ class ArenaBattleServicer(arena_pb2_grpc.ArenaBattleServiceServicer):
             # Log registration error
             if self.json_logger:
                 self.json_logger.log_game_event("registration_error", {
-                    "player_id": player_id,
+                    "player_id": player_id if 'player_id' in locals() else 'unknown',
                     "error": str(e)
                 })
             
@@ -148,33 +163,34 @@ class ArenaBattleServicer(arena_pb2_grpc.ArenaBattleServiceServicer):
                 logger.error("⚠️ No available bot for PlayGame connection")
                 return
             
-            # Get match info
-            match_info = self.matchmaker.get_match_info(player_id)
-            if 'error' in match_info:
-                logger.error(f"⚠️ No match found for player {player_id}")
+            # Get room info
+            player_room_id = self.room_manager.player_to_room.get(player_id, "")
+            room_info = self.room_manager.get_room_info(player_room_id)
+            if 'error' in room_info:
+                logger.error(f"⚠️ No room found for player {player_id}")
                 return
             
-            match_id = match_info['match_id']
-            match_state = match_info['is_active']
+            room_id = room_info['room_id']
+            room_active = room_info['is_active']
             
             # Create connection
-            bot_connection = BotConnection(bot_id, player_id, match_id)
+            bot_connection = BotConnection(bot_id, player_id, room_id)
             self.connections[bot_id] = bot_connection
             
-            logger.info(f"🔌 Bot {bot_id} ({player_id}) connected to match {match_id}")
+            logger.info(f"🔌 Bot {bot_id} ({player_id}) connected to room {room_id}")
             
             # Log connection event
             if self.json_logger:
                 self.json_logger.log_game_event("bot_connected", {
                     "bot_id": bot_id,
                     "player_id": player_id,
-                    "match_id": match_id,
-                    "match_active": match_state
+                    "room_id": room_id,
+                    "room_active": room_active
                 })
             
-            # Check if match is ready to start
-            if match_state:
-                logger.info(f"⚔️ {player_id} joining active PvP battle")
+            # Check if room is ready to start
+            if room_active:
+                logger.info(f"⚔️ {player_id} joining active room battle")
             else:
                 logger.info(f"⏳ {player_id} waiting for more players...")
             
@@ -218,17 +234,18 @@ class ArenaBattleServicer(arena_pb2_grpc.ArenaBattleServiceServicer):
                 action_dict = action_to_dict(action_request)
                 self.json_logger.log_action_received(bot_id, player_id, action_dict)
             
-            # Check if bot's match is active
+            # Check if bot's room is active
             connection = self.connections.get(bot_id)
             if not connection:
                 return
             
-            match_info = self.matchmaker.get_match_info(connection.player_id)
-            if 'error' in match_info or not match_info.get('is_active', False):
-                # Match not active yet, ignore actions but keep connection alive
+            player_room_id = self.room_manager.player_to_room.get(connection.player_id, "")
+            room_info = self.room_manager.get_room_info(player_room_id)
+            if 'error' in room_info or not room_info.get('is_active', False):
+                # Room not active yet, ignore actions but keep connection alive
                 return
             
-            # Process action normally for active matches
+            # Process action normally for active rooms
             action = {
                 'thrust': {
                     'x': action_request.thrust.x,
@@ -257,13 +274,19 @@ class ArenaBattleServicer(arena_pb2_grpc.ArenaBattleServiceServicer):
             observation_count = 0
             
             while connection.is_active:
-                # Check if match is active
-                match_info = self.matchmaker.get_match_info(connection.player_id)
-                is_match_active = match_info.get('is_active', False) if 'error' not in match_info else False
+                # Check if room is active
+                player_room_id = self.room_manager.player_to_room.get(connection.player_id, "")
+                room_info = self.room_manager.get_room_info(player_room_id)
+                is_room_active = room_info.get('is_active', False) if 'error' not in room_info else False
                 
-                if is_match_active:
-                    # Send real game observations
-                    obs_data = self.game_engine.game_state.get_observation(connection.bot_id)
+                if is_room_active:
+                    # Get observation from correct room state
+                    player_room_id = self.room_manager.player_to_room.get(connection.player_id, "")
+                    room_state = self.game_engine.get_room_state(player_room_id)
+                    if room_state:
+                        obs_data = room_state.get_observation(connection.bot_id)
+                    else:
+                        obs_data = self.game_engine.game_state.get_observation(connection.bot_id)
                     
                     if obs_data:
                         observation = arena_pb2.Observation(
@@ -297,7 +320,7 @@ class ArenaBattleServicer(arena_pb2_grpc.ArenaBattleServiceServicer):
                             obs_dict = observation_to_dict(observation)
                             # Thêm context về game state
                             obs_dict["game_context"] = {
-                                "match_id": connection.match_id,
+                                "room_id": connection.room_id,
                                 "observation_count": observation_count,
                                 "connection_duration": asyncio.get_event_loop().time() - connection.connection_time
                             }
@@ -352,8 +375,8 @@ class ArenaBattleServicer(arena_pb2_grpc.ArenaBattleServiceServicer):
             if connection.bot_id in self.connections:
                 del self.connections[connection.bot_id]
             
-            # Remove from matchmaker
-            removed = self.matchmaker.remove_player(connection.player_id)
+            # Remove from room manager
+            removed = self.room_manager.leave_room(connection.player_id)
             
             # Remove bot from game
             self.game_engine.game_state.remove_bot(connection.bot_id)
@@ -370,7 +393,7 @@ class ArenaBattleServicer(arena_pb2_grpc.ArenaBattleServiceServicer):
             logger.info(f"   Connection duration: {connection_duration:.1f}s")
             
             if removed:
-                logger.info(f"   Removed from match {connection.match_id}")
+                logger.info(f"   Removed from room {connection.room_id}")
             
         except Exception as e:
             logger.error(f"💥 Cleanup error: {e}")
@@ -388,11 +411,12 @@ class ArenaBattleServicer(arena_pb2_grpc.ArenaBattleServiceServicer):
         try:
             player_id = request.player_id
             
-            # Get matchmaker stats
-            matchmaker_stats = self.matchmaker.get_statistics()
+            # Get room stats
+            room_stats = self.room_manager.get_statistics()
             
             # Get player-specific stats if available
-            match_info = self.matchmaker.get_match_info(player_id)
+            player_room_id = self.room_manager.player_to_room.get(player_id, "")
+            room_info = self.room_manager.get_room_info(player_room_id) if player_room_id else {}
             
             # Get game stats
             game_stats = self.game_engine.game_state.get_game_stats()
@@ -416,14 +440,14 @@ class ArenaBattleServicer(arena_pb2_grpc.ArenaBattleServiceServicer):
                         "deaths": player_deaths,
                         "kd_ratio": player_kills / max(player_deaths, 1)
                     },
-                    "server_stats": matchmaker_stats
+                    "server_stats": room_stats
                 })
             
             return arena_pb2.GameStats(
                 total_kills=player_kills,
                 total_deaths=player_deaths,
                 kill_death_ratio=player_kills / max(player_deaths, 1),
-                games_played=matchmaker_stats['total_matches_created'],
+                games_played=room_stats['total_players_served'],
                 average_survival_time=45.0  # Placeholder
             )
             
@@ -452,24 +476,34 @@ class ArenaBattleServicer(arena_pb2_grpc.ArenaBattleServiceServicer):
 
 async def run_server(game_engine, port=50051, enable_logging=True):
     """Run the gRPC server với JSON logging"""
+    print(f"RUN_SERVER DEBUG: Starting server on port {port}")
+    
     server = grpc.aio.server(futures.ThreadPoolExecutor(max_workers=10))
     
+    print("RUN_SERVER DEBUG: Creating servicer...")
     servicer = ArenaBattleServicer(game_engine, enable_logging=enable_logging)
+    print("RUN_SERVER DEBUG: Servicer created successfully")
+    
     arena_pb2_grpc.add_ArenaBattleServiceServicer_to_server(servicer, server)
     
     listen_addr = f'[::]:{port}'
     server.add_insecure_port(listen_addr)
     
-    logger.info(f"🚀 Arena Battle Server (PvP-Only) starting on {listen_addr}")
-    if enable_logging:
-        logger.info(f"📝 JSON logging enabled - Check logs/server_grpc_data/")
-    logger.info(f"⚔️ Minimum {servicer.matchmaker.min_players} players required to start matches")
-    
-    await server.start()
+    logger.info(f"🚀 Arena Battle Server (Room-Based) starting on {listen_addr}")
     
     try:
+        await server.start()
+        print("RUN_SERVER DEBUG: Server started successfully and listening")
+        
+        # Small delay to ensure server is ready
+        await asyncio.sleep(0.1)
+        print("RUN_SERVER DEBUG: Server ready for connections")
+        
         await server.wait_for_termination()
+    except Exception as e:
+        print(f"RUN_SERVER DEBUG: Server error: {e}")
+        raise
     except KeyboardInterrupt:
         logger.info("🛑 gRPC Server stopped")
-        servicer.close_logger()  # Close JSON logger
+        servicer.close_logger()
         await server.stop(5)

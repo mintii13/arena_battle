@@ -7,64 +7,52 @@ import logging
 import random
 from typing import Optional
 from ..engine.game_state import BotState, GameState
-
 logger = logging.getLogger(__name__)
-
 class ModernColors:
     """Modern color palette with gradients and effects"""
     # Base colors
     BLACK = (0, 0, 0)
     WHITE = (255, 255, 255)
-    
     # Modern UI colors - Dark theme with neon accents
     BACKGROUND_PRIMARY = (10, 14, 39)      # Deep dark blue
     BACKGROUND_SECONDARY = (15, 20, 40)     # Slightly lighter
     BACKGROUND_TERTIARY = (25, 30, 50)     # Panel backgrounds
-    
     # Neon accent colors
     NEON_CYAN = (0, 212, 255)              # Primary accent
     NEON_PINK = (255, 0, 128)              # Secondary accent  
     NEON_YELLOW = (255, 237, 78)           # Warning/special
     NEON_GREEN = (0, 255, 136)             # Success/health
-    
     # UI element colors
     PANEL_BG = (15, 20, 40, 240)           # Semi-transparent panel
     BUTTON_NORMAL = (30, 35, 55)
     BUTTON_HOVER = (50, 55, 75) 
     BUTTON_ACTIVE = (0, 212, 255, 100)
-    
     # Game element colors
     ARENA_BG = (10, 15, 30)
     WALL_PRIMARY = (100, 120, 150)
     WALL_SECONDARY = (80, 100, 130)
     WALL_BORDER = (150, 170, 200)
-    
     # Bot colors with glow effects
     BOT_ALIVE = (0, 212, 255)
     BOT_ALIVE_GLOW = (0, 212, 255, 100)
     BOT_DEAD = (100, 100, 100)
     BOT_INVULNERABLE = (255, 237, 78)
     BOT_INVULNERABLE_GLOW = (255, 237, 78, 150)
-    
     # Bullet colors
     BULLET_CORE = (255, 237, 78)
     BULLET_GLOW = (255, 136, 0)
-    
     # HP bar colors  
     HP_HIGH = (0, 255, 136)
     HP_MEDIUM = (255, 237, 78)
     HP_LOW = (255, 68, 68)
     HP_BG = (20, 20, 20, 180)
-    
     # Text colors
     TEXT_PRIMARY = (255, 255, 255)
     TEXT_SECONDARY = (200, 200, 200)
     TEXT_ACCENT = (0, 212, 255)
     TEXT_WARNING = (255, 237, 78)
-
 class ModernButton:
     """Modern styled button with hover effects"""
-    
     def __init__(self, x, y, width, height, text, font, active=False):
         self.rect = pygame.Rect(x, y, width, height)
         self.text = text
@@ -72,7 +60,6 @@ class ModernButton:
         self.active = active
         self.hover = False
         self.click_time = 0
-        
     def handle_event(self, event):
         """Handle button events"""
         if event.type == pygame.MOUSEMOTION:
@@ -82,7 +69,6 @@ class ModernButton:
                 self.click_time = time.time()
                 return True
         return False
-    
     def draw(self, surface):
         """Draw modern button with effects"""
         # Button background
@@ -92,75 +78,61 @@ class ModernButton:
             color = ModernColors.BUTTON_HOVER
         else:
             color = ModernColors.BUTTON_NORMAL
-            
         # Draw main button
         pygame.draw.rect(surface, color, self.rect, border_radius=8)
-        
         # Draw border
         border_color = ModernColors.NEON_CYAN if (self.active or self.hover) else ModernColors.TEXT_SECONDARY
         pygame.draw.rect(surface, border_color, self.rect, width=2, border_radius=8)
-        
         # Draw button text
         text_color = ModernColors.TEXT_PRIMARY
         text_surface = self.font.render(self.text, True, text_color)
         text_rect = text_surface.get_rect(center=self.rect.center)
         surface.blit(text_surface, text_rect)
-
 class GameRenderer:
     """Compact game renderer with fixed debug key"""
-    
     def __init__(self, arena_width=800, arena_height=600):
         # Calculate window size based on arena + UI
         self.ui_panel_width = 320
         self.arena_width = arena_width
         self.arena_height = arena_height
-        
         # Compact window - just fit the content
         self.screen_width = self.ui_panel_width + arena_width + 40  # 20px margin on each side
         self.screen_height = max(arena_height + 100, 700)  # At least 700px height for UI
-        
         # Layout
         self.arena_offset_x = self.ui_panel_width + 20
         self.arena_offset_y = 60
-        
         # Pygame objects
         self.screen = None
         self.clock = None
         self.fonts = {}
-        
         # State
         self.running = False
         self.selected_bot = None
         self.show_debug = False  # Debug state tracking
-        
         # UI elements
         self.speed_buttons = []
-        
         # Animation timers
         self.title_glow_phase = 0
-        
         logger.info(f"Compact renderer initialized: {self.screen_width}x{self.screen_height}")
         self._setup_ui_elements()
-    
+        self.current_viewing_room = None  # For spectator mode
+        self.available_rooms = []  # List of all rooms
+        self.viewing_mode = "default"
     def _setup_ui_elements(self):
         """Setup UI elements with compact layout"""
         # Speed control buttons - 2x2 grid
         button_width, button_height = 70, 35
         start_x, start_y = 25, 130
-        
         speeds = [1.0, 2.0, 4.0, 10.0]
         labels = ["1x", "2x", "4x", "10x"]
-        
         for i, (speed, label) in enumerate(zip(speeds, labels)):
             row = i // 2
             col = i % 2
             x = start_x + col * (button_width + 10)
             y = start_y + row * (button_height + 8)
-            
             button = ModernButton(x, y, button_width, button_height, label, None, active=(speed == 1.0))
             button.speed = speed
             self.speed_buttons.append(button)
-    
     def _initialize_fonts(self):
         """Initialize font system"""
         try:
@@ -171,25 +143,20 @@ class GameRenderer:
                 'small': pygame.font.Font(None, 14),
                 'tiny': pygame.font.Font(None, 12),
             }
-                
             # Update button fonts
             for button in self.speed_buttons:
                 button.font = self.fonts['normal']
-                
         except Exception as e:
             logger.error(f"Font initialization error: {e}")
             # Emergency fallback
             default_font = pygame.font.Font(None, 16)
             self.fonts = {key: default_font for key in ['title', 'subtitle', 'normal', 'small', 'tiny']}
-    
     async def run(self, game_engine):
         """Main rendering loop"""
         if not self._initialize_pygame():
             return
-        
         logger.info("Starting compact game renderer...")
         self.running = True
-        
         try:
             while self.running:
                 # Handle events
@@ -202,57 +169,42 @@ class GameRenderer:
                         self._handle_mouse_click(event.pos, game_engine)
                     elif event.type == pygame.MOUSEMOTION:
                         self._handle_mouse_motion(event)
-                
                 # Update animations
                 self.title_glow_phase += 0.08
-                
                 # Render frame
                 self._render_frame(game_engine)
-                
                 # Control frame rate
                 self.clock.tick(60)
                 await asyncio.sleep(0.001)
-                
         except Exception as e:
             logger.error(f"Renderer error: {e}")
         finally:
             self._cleanup()
-    
     def _initialize_pygame(self) -> bool:
         """Initialize Pygame with compact window"""
         try:
             pygame.init()
-            
             # Create compact window
             self.screen = pygame.display.set_mode((self.screen_width, self.screen_height))
             pygame.display.set_caption("Arena Battle - Compact View")
-            
             self.clock = pygame.time.Clock()
-            
             # Initialize font system
             self._initialize_fonts()
-            
             logger.info(f"Pygame initialized - Window: {self.screen_width}x{self.screen_height}")
             return True
-            
         except Exception as e:
             logger.error(f"Failed to initialize Pygame: {e}")
             return False
-    
     def _render_frame(self, game_engine):
         """Render complete frame"""
         # Clear with gradient background
         self._render_background()
-        
         # Render UI panel
         self._render_ui_panel(game_engine)
-        
         # Render arena (perfectly fitted)
         self._render_arena(game_engine)
-        
         # Update display
         pygame.display.flip()
-    
     def _render_background(self):
         """Render background"""
         # Simple gradient
@@ -261,73 +213,68 @@ class GameRenderer:
             r = int(ModernColors.BACKGROUND_PRIMARY[0] * (1-ratio) + ModernColors.BACKGROUND_SECONDARY[0] * ratio)
             g = int(ModernColors.BACKGROUND_PRIMARY[1] * (1-ratio) + ModernColors.BACKGROUND_SECONDARY[1] * ratio)  
             b = int(ModernColors.BACKGROUND_PRIMARY[2] * (1-ratio) + ModernColors.BACKGROUND_SECONDARY[2] * ratio)
-            
             pygame.draw.line(self.screen, (r, g, b), (0, y), (self.screen_width, y))
-    
     def _render_ui_panel(self, game_engine):
         """Render compact left UI panel"""
         # Panel background
         panel_rect = pygame.Rect(0, 0, self.ui_panel_width, self.screen_height)
         pygame.draw.rect(self.screen, ModernColors.BACKGROUND_TERTIARY, panel_rect)
-        
         # Panel border
         pygame.draw.line(self.screen, ModernColors.NEON_CYAN, 
                         (self.ui_panel_width, 0), (self.ui_panel_width, self.screen_height), 2)
-        
         y_offset = 20
-        
         # Title
         self._render_title(y_offset)
         y_offset += 60
-        
         # PvP mode
         mode_text = "🔥 PvP Combat Mode"
         mode_surface = self.fonts['normal'].render(mode_text, True, ModernColors.NEON_PINK)
         self.screen.blit(mode_surface, (25, y_offset))
         y_offset += 40
-        
         # Speed control
         speed_title = self.fonts['subtitle'].render("⚡ Speed Control", True, ModernColors.NEON_CYAN)
         self.screen.blit(speed_title, (25, y_offset-20))
         y_offset += 25
-        
         # Draw speed buttons
         for button in self.speed_buttons:
             button.draw(self.screen)
         y_offset += 100
-        
         # Game statistics
         self._render_stats(game_engine, y_offset)
         y_offset += 180
         
+        # Room info
+        room_title = self.fonts['subtitle'].render("🏠 Room Info", True, ModernColors.NEON_CYAN)
+        self.screen.blit(room_title, (25, y_offset))
+        y_offset += 25
+        
+        # Display current room (placeholder)
+        room_text = f"Current: room_001 (2/4)"
+        room_surface = self.fonts['small'].render(room_text, True, ModernColors.TEXT_SECONDARY)
+        self.screen.blit(room_surface, (25, y_offset))
+        y_offset += 40
+        
         # Bot list
         self._render_bot_list(game_engine, y_offset)
         y_offset += 150
-        
         # Controls (at bottom)
         self._render_controls(self.screen_height - 120)
-    
     def _render_title(self, y):
         """Render animated title"""
         title_text = "ARENA BATTLE"
-        
         # Glow effect
         glow_intensity = int(100 + 50 * math.sin(self.title_glow_phase))
         glow_color = (*ModernColors.NEON_CYAN[:3], glow_intensity)
-        
         # Main title
         title_surface = self.fonts['title'].render(title_text, True, ModernColors.TEXT_PRIMARY)
         title_rect = title_surface.get_rect(center=(self.ui_panel_width//2, y + 20))
         self.screen.blit(title_surface, title_rect)
-    
     def _render_stats(self, game_engine, y):
         """Render compact statistics"""
         stats_title = self.fonts['subtitle'].render("📊 Statistics", True, ModernColors.NEON_CYAN)
         self.screen.blit(stats_title, (25, y))
         y += 25
-        
         stats = game_engine.game_state.get_game_stats()
-        
         # Compact stat display
         stat_lines = [
             f"Tick: {stats['tick']:,}",
@@ -341,21 +288,17 @@ class GameRenderer:
             f"Deaths: {stats['total_deaths']:,}",
             f"Shots: {stats['total_bullets_fired']:,}",
         ]
-        
         for line in stat_lines:
             if line:  # Skip empty lines
                 line_surface = self.fonts['small'].render(line, True, ModernColors.TEXT_SECONDARY)
                 self.screen.blit(line_surface, (25, y))
             y += 16
-    
     def _render_bot_list(self, game_engine, y):
         """Render compact bot list"""
         bots_title = self.fonts['subtitle'].render("🤖 Active Bots", True, ModernColors.NEON_CYAN)
         self.screen.blit(bots_title, (25, y + 20))
         y += 25
-        
         bots = list(game_engine.game_state.bots.values())[:5]  # Show max 5 bots
-        
         for bot in bots:
             # Status color
             if bot.state == BotState.ALIVE:
@@ -367,48 +310,47 @@ class GameRenderer:
             else:
                 color = ModernColors.BOT_DEAD
                 icon = "🔴"
-            
             # Bot info
             bot_name = bot.name if len(bot.name) <= 12 else bot.name[:9] + "..."
             bot_text = f"{icon} {bot_name}"
-            
             if bot == self.selected_bot:
                 bot_text = f"► {bot_text}"
                 color = ModernColors.NEON_CYAN
-            
             bot_surface = self.fonts['small'].render(bot_text, True, color)
             self.screen.blit(bot_surface, (25, y))
-            
             # K/D on same line
             kd_text = f"{bot.kills}K/{bot.deaths}D"
             kd_surface = self.fonts['tiny'].render(kd_text, True, ModernColors.TEXT_SECONDARY)
             self.screen.blit(kd_surface, (200, y))
-            
             y += 18
-    
     def _render_controls(self, y):
         """Render controls section"""
         controls_title = self.fonts['subtitle'].render("🎮 Controls", True, ModernColors.NEON_CYAN)
         self.screen.blit(controls_title, (25, y))
         y += 20
-        
         controls = [
             "1,2,3,4 - Speed",
             "Click - Select Bot", 
             "D - Debug Mode",
+            "R - Cycle Rooms",
             "S - Save Models",
             "ESC - Quit"
         ]
-        
         for control in controls:
             control_surface = self.fonts['tiny'].render(control, True, ModernColors.TEXT_SECONDARY)
             self.screen.blit(control_surface, (25, y))
             y += 14
-    
     def _render_arena(self, game_engine):
-        """Render arena perfectly fitted to window"""
-        game_state = game_engine.game_state
-        
+        """Render arena with room switching capability"""
+        # Choose which room state to render
+        if self.viewing_mode != "default":
+            room_state = game_engine.get_room_state(self.viewing_mode)
+            if room_state:
+                game_state = room_state
+            else:
+                game_state = game_engine.game_state
+        else:
+            game_state = game_engine.game_state
         # Arena fits exactly in the allocated space
         arena_rect = pygame.Rect(
             self.arena_offset_x, 
@@ -416,12 +358,14 @@ class GameRenderer:
             self.arena_width, 
             self.arena_height
         )
-        
         # Scale is 1:1 since window is sized to fit arena
         self.scale = 1.0
         
         # Arena header
-        header_text = f"🏟️ Combat Arena ({self.arena_width}x{self.arena_height})"
+        if self.viewing_mode != "default":
+            header_text = f"🏟️ Room: {self.viewing_mode} ({self.arena_width}x{self.arena_height})"
+        else:
+            header_text = f"🏟️ Combat Arena ({self.arena_width}x{self.arena_height})"
         header_surface = self.fonts['normal'].render(header_text, True, ModernColors.TEXT_PRIMARY)
         self.screen.blit(header_surface, (self.arena_offset_x, self.arena_offset_y - 30))
         
@@ -702,6 +646,8 @@ class GameRenderer:
             logger.info("Bot selection cleared")
         elif key == pygame.K_s:
             logger.info("Manual model save triggered")
+        elif key == pygame.K_r:
+            self._cycle_viewing_room(game_engine)
     
     def _set_speed(self, button_index, game_engine):
         """Set game speed with visual feedback"""
@@ -766,6 +712,27 @@ class GameRenderer:
         if pygame.get_init():
             pygame.quit()
         logger.info("Renderer stopped")
+
+    def _cycle_viewing_room(self, game_engine):
+        """Cycle through available room states for viewing"""
+        room_states = game_engine.get_all_room_states()
+        if not room_states:
+            logger.info("🔄 No room states available")
+            return
+        
+        room_ids = list(room_states.keys())
+        
+        if self.viewing_mode == "default" or self.viewing_mode not in room_ids:
+            # Switch to first room
+            self.viewing_mode = room_ids[0]
+        else:
+            # Cycle to next room
+            current_idx = room_ids.index(self.viewing_mode)
+            next_idx = (current_idx + 1) % len(room_ids)
+            self.viewing_mode = room_ids[next_idx]
+        
+        logger.info(f"🔄 Now viewing room: {self.viewing_mode}")
+
 
 # Keep the original class name for compatibility
 ModernGameRenderer = GameRenderer

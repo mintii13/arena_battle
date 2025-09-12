@@ -30,6 +30,7 @@ class Bot:
     death_time: float = 0.0
     invulnerable_until: float = 0.0
     radius: float = 15.0
+    room_id: str = None
 
 @dataclass
 class Bullet:
@@ -72,12 +73,13 @@ class GameState:
         
         # Initialize walls
         self._create_arena_walls()
+        self.room_id = None
     
-    def _create_arena_walls(self):
-        """Create arena walls and obstacles"""
+    def _create_arena_walls(self, arena_config: dict = None):
+        """Create arena walls and room-specific obstacles"""
         wall_thickness = 20
         
-        # Boundary walls
+        # Boundary walls (always same)
         self.walls = [
             Wall(0, 0, self.width, wall_thickness),  # Top
             Wall(0, self.height - wall_thickness, self.width, wall_thickness),  # Bottom
@@ -85,36 +87,19 @@ class GameState:
             Wall(self.width - wall_thickness, 0, wall_thickness, self.height),  # Right
         ]
         
-        # Interior obstacles
-        center_x, center_y = self.width // 2, self.height // 2
-        
-        # Central cross walls for cover
-        self.walls.extend([
-            Wall(center_x - 60, center_y - 15, 120, 30),  # Horizontal center
-            Wall(center_x - 15, center_y - 80, 30, 160),   # Vertical center
-        ])
-        
-        # Corner cover spots
-        corner_size = 60
-        corner_thickness = 15
-        margin = 80
-        
-        # Four corner L-shaped covers
-        corners = [
-            # (margin, margin),  # Top-left
-            (self.width - margin - corner_size, margin),  # Top-right
-            (margin, self.height - margin - corner_size),  # Bottom-left
-            # (self.width - margin - corner_size, self.height - margin - corner_size)  # Bottom-right
-        ]
-        
-        for corner_x, corner_y in corners:
+        # Add room-specific obstacles
+        if arena_config and 'obstacles' in arena_config:
+            for obs in arena_config['obstacles']:
+                self.walls.append(Wall(obs['x'], obs['y'], obs['width'], obs['height']))
+        else:
+            # Default obstacles (fallback)
+            center_x, center_y = self.width // 2, self.height // 2
             self.walls.extend([
-                Wall(corner_x, corner_y, corner_size, corner_thickness),
-                Wall(corner_x, corner_y, corner_thickness, corner_size)
+                Wall(center_x - 60, center_y - 15, 120, 30),  # Horizontal center
+                Wall(center_x - 15, center_y - 80, 30, 160),   # Vertical center
             ])
     
-    def add_bot(self, player_id: str, name: str) -> int:
-        """Add a new bot to the game"""
+    def add_bot(self, player_id: str, name: str, arena_config: dict = None, room_id: str = None) -> int:
         bot_id = self.next_bot_id
         self.next_bot_id += 1
         
@@ -129,7 +114,16 @@ class GameState:
             y=spawn_y
         )
         
+        # Store room info in bot
+        bot.room_id = room_id  # Add this line
+        
         self.bots[bot_id] = bot
+        
+        # Update arena walls if room-specific config provided
+        if arena_config:
+            self._create_arena_walls(arena_config)
+            self.room_id = room_id  # Track room for this state
+        
         return bot_id
     
     def _find_spawn_position(self) -> tuple:

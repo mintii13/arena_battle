@@ -1,0 +1,46 @@
+{
+    "room_001": {
+        "password": "abc123",
+        "max_players": 4,
+        "arena": {
+            "width": 800,
+            "height": 600,
+            "obstacles": [
+                {
+                    "x": 200,
+                    "y": 200,
+                    "width": 50,
+                    "height": 100
+                },
+                {
+                    "x": 550,
+                    "y": 300,
+                    "width": 100,
+                    "height": 50
+                }
+            ]
+        }
+    },
+    "room_002": {
+        "password": "abc456",
+        "max_players": 4,
+        "arena": {
+            "width": 800,
+            "height": 600,
+            "obstacles": [
+                {
+                    "x": 400,
+                    "y": 100,
+                    "width": 80,
+                    "height": 80
+                },
+                {
+                    "x": 300,
+                    "y": 400,
+                    "width": 200,
+                    "height": 50
+                }
+            ]
+        }
+    }
+}

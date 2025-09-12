@@ -24,9 +24,11 @@ logger = logging.getLogger(__name__)
 class BotClient:
     """AI Bot client with wall avoidance, smart aiming, and auto-save (keeping original class name)"""
     
-    def __init__(self, player_id, bot_name, trainer, obs_processor):
+    def __init__(self, player_id, bot_name, trainer, obs_processor, room_id, room_password):
         self.player_id = player_id
-        self.bot_name = bot_name  # Store full name properly
+        self.bot_name = bot_name
+        self.room_id = room_id
+        self.room_password = room_password
         self.trainer = trainer
         self.obs_processor = obs_processor
         
@@ -86,7 +88,7 @@ class BotClient:
             # Register for PvP matchmaking with FULL bot name
             registration = arena_pb2.BotRegistration(
                 player_id=self.player_id,
-                bot_name=self.bot_name  # Use full name, not truncated
+                bot_name=f"{self.bot_name}|{self.room_id}|{self.room_password}"
             )
             
             logger.info(f"🤖 Registering smart combat bot: {self.bot_name}")

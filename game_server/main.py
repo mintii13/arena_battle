@@ -34,6 +34,8 @@ logger = logging.getLogger(__name__)
 class GameEngine:
     def __init__(self):
         self.game_state = GameState()
+        self.room_states = {}  # room_id -> GameState mapping
+        self.physics_engines = {}  # room_id -> PhysicsEngine mapping
         self.physics = PhysicsEngine(self.game_state)
         self.running = False
         self.last_time = time.time()
@@ -41,10 +43,29 @@ class GameEngine:
         # Track match state for conditional physics
         self.match_active = False
         self.active_player_count = 0
+
+    def get_or_create_room_state(self, room_id, arena_config=None):
+        """Get existing room state or create new one"""
+        if room_id not in self.room_states:
+            room_state = GameState()
+            room_state.room_id = room_id
+            if arena_config:
+                room_state._create_arena_walls(arena_config)
+            self.room_states[room_id] = room_state
+            self.physics_engines[room_id] = PhysicsEngine(room_state)
+        return self.room_states[room_id]
+    
+    def get_room_state(self, room_id):
+        """Get specific room state"""
+        return self.room_states.get(room_id)
+    
+    def get_all_room_states(self):
+        """Get all room states"""
+        return self.room_states
     
     async def run(self):
-        """Main game loop with conditional physics"""
-        logger.info("🎮 Starting PvP game engine...")
+        """Main game loop with multi-room physics"""
+        logger.info("🎮 Starting multi-room game engine...")
         self.running = True
         
         while self.running:
@@ -52,30 +73,23 @@ class GameEngine:
             dt = (current_time - self.last_time) * self.game_state.speed_multiplier
             self.last_time = current_time
             
-            # Check if we have enough players for active gameplay
+            # Update physics for each room
+            for room_id, room_state in self.room_states.items():
+                alive_bots = len(room_state.get_alive_bots())
+                
+                if alive_bots >= 2:
+                    # Active room - full physics
+                    self.physics_engines[room_id].update(min(dt, 0.1))
+                elif alive_bots > 0:
+                    # Waiting room - slow physics
+                    self.physics_engines[room_id].update(min(dt, 0.1) * 0.1)
+            
+            # Also update default state for compatibility
             alive_bots = len(self.game_state.get_alive_bots())
-            
-            if alive_bots >= 2:
-                if not self.match_active:
-                    self.match_active = True
-                    logger.info(f"⚔️ PvP match activated! {alive_bots} players in arena")
-                
-                # Run physics when match is active
+            if alive_bots > 0:
                 self.physics.update(min(dt, 0.1))
-                self.active_player_count = alive_bots
-                
-            else:
-                if self.match_active:
-                    self.match_active = False
-                    logger.info(f"⏸️ Match paused - waiting for players ({alive_bots}/2 minimum)")
-                
-                # Still update physics but at reduced rate for waiting players
-                if alive_bots > 0:
-                    self.physics.update(min(dt, 0.1) * 0.1)  # Slow physics
-                self.active_player_count = alive_bots
-            
-            # Control game speed
-            sleep_time = 1/60 / self.game_state.speed_multiplier
+            # Control game speed - MUST yield control to other tasks
+            sleep_time = 1/60 / self.game_state.speed_multiplier  
             await asyncio.sleep(max(0.001, sleep_time))
     
     def stop(self):
@@ -121,16 +135,21 @@ async def main():
     # Create renderer if UI enabled
     renderer = None
     if not args.no_ui:
-        renderer = GameRenderer()
+        try:
+            renderer = GameRenderer()
+            logger.info("✅ Renderer created successfully")
+        except Exception as e:
+            logger.error(f"❌ Renderer creation failed: {e}")
+            renderer = None
     
     # Display startup banner
     logger.info("🤖 ==========================================")
-    logger.info("🤖     ARENA BATTLE SERVER - PVP MODE")
+    logger.info("🤖     ARENA BATTLE SERVER - ROOM MODE")
     logger.info("🤖 ==========================================")
     logger.info(f"🌐 Server port: {args.port}")
     logger.info(f"👥 Players required: {args.min_players}-{args.max_players}")
     logger.info(f"🎮 UI enabled: {'Yes' if not args.no_ui else 'No (headless)'}")
-    logger.info("⚔️ Mode: PvP Only (no self-play)")
+    logger.info("⚔️ Mode: PvP Only")
     logger.info("🎯 Waiting for AI bots to connect...")
     
     # JSON Logging info
@@ -155,17 +174,22 @@ async def main():
     logger.info("🤖 ==========================================")
     
     try:
-        # Start all tasks
-        tasks = [
-            game_engine.run(),
-            run_server(game_engine, args.port, enable_logging=enable_logging)
-        ]
         
+        print("MAIN DEBUG: Starting game engine...")
+        game_task = asyncio.create_task(game_engine.run())
+
+        print("MAIN DEBUG: Starting server...")
+        server_task = asyncio.create_task(run_server(game_engine, args.port, enable_logging=enable_logging))
+
+        # Wait a moment for server to be ready
+        await asyncio.sleep(0.5)
+
         if renderer:
-            tasks.append(renderer.run(game_engine))
-        
-        await asyncio.gather(*tasks)
-        
+            print("MAIN DEBUG: Starting renderer...")
+            renderer_task = asyncio.create_task(renderer.run(game_engine))
+            await asyncio.gather(game_task, server_task, renderer_task)
+        else:
+            await asyncio.gather(game_task, server_task)
     except KeyboardInterrupt:
         logger.info("🛑 Server stopped by user")
         if enable_logging:
