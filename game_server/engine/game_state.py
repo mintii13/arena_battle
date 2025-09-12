@@ -79,7 +79,7 @@ class GameState:
         """Create arena walls and room-specific obstacles"""
         wall_thickness = 20
         
-        # Boundary walls (always same)
+        # Boundary walls (luôn giống nhau)
         self.walls = [
             Wall(0, 0, self.width, wall_thickness),  # Top
             Wall(0, self.height - wall_thickness, self.width, wall_thickness),  # Bottom
@@ -87,17 +87,23 @@ class GameState:
             Wall(self.width - wall_thickness, 0, wall_thickness, self.height),  # Right
         ]
         
+        print(f"GAME_STATE DEBUG: Creating arena with config: {arena_config}")
+        
         # Add room-specific obstacles
         if arena_config and 'obstacles' in arena_config:
-            for obs in arena_config['obstacles']:
-                self.walls.append(Wall(obs['x'], obs['y'], obs['width'], obs['height']))
+            print(f"GAME_STATE DEBUG: Adding {len(arena_config['obstacles'])} obstacles")
+            for i, obs in enumerate(arena_config['obstacles']):
+                wall = Wall(obs['x'], obs['y'], obs['width'], obs['height'])
+                self.walls.append(wall)
+                print(f"GAME_STATE DEBUG: Added obstacle {i}: x={obs['x']}, y={obs['y']}, w={obs['width']}, h={obs['height']}")
         else:
             # Default obstacles (fallback)
+            print("GAME_STATE DEBUG: Using default obstacles")
             center_x, center_y = self.width // 2, self.height // 2
             self.walls.extend([
                 Wall(center_x - 60, center_y - 15, 120, 30),  # Horizontal center
                 Wall(center_x - 15, center_y - 80, 30, 160),   # Vertical center
-            ])
+        ])
     
     def add_bot(self, player_id: str, name: str, arena_config: dict = None, room_id: str = None) -> int:
         bot_id = self.next_bot_id

@@ -117,7 +117,7 @@ class GameRenderer:
         self._setup_ui_elements()
         self.current_viewing_room = None  # For spectator mode
         self.available_rooms = []  # List of all rooms
-        self.viewing_mode = "default"
+        self.viewing_mode = "room_001"
     def _setup_ui_elements(self):
         """Setup UI elements with compact layout"""
         # Speed control buttons - 2x2 grid
@@ -341,64 +341,83 @@ class GameRenderer:
             self.screen.blit(control_surface, (25, y))
             y += 14
     def _render_arena(self, game_engine):
-        """Render arena with room switching capability"""
-        # Choose which room state to render
+        """Render arena với room selection đúng - FIXED"""
+        
+        # 🔥 FIX: Logic chọn game state
+        game_state = None
+        room_info = ""
+        
+        print(f"🎨 RENDERER: Rendering arena, viewing_mode = {self.viewing_mode}")
+        
         if self.viewing_mode != "default":
+            # Hiển thị room cụ thể
             room_state = game_engine.get_room_state(self.viewing_mode)
             if room_state:
                 game_state = room_state
+                wall_count = len(room_state.walls)
+                obstacle_count = wall_count - 4  # Trừ 4 boundary walls
+                room_info = f"Room: {self.viewing_mode} ({wall_count} walls, {obstacle_count} obstacles)"
+                print(f"🎨 RENDERER: Using room state '{self.viewing_mode}' with {wall_count} walls")
             else:
+                # Fallback nếu không tìm thấy room state
                 game_state = game_engine.game_state
+                room_info = f"Default State (room '{self.viewing_mode}' not found)"
+                print(f"🎨 RENDERER: Room '{self.viewing_mode}' not found, using default")
         else:
+            # Hiển thị default state
             game_state = game_engine.game_state
-        # Arena fits exactly in the allocated space
+            wall_count = len(game_state.walls)
+            obstacle_count = wall_count - 4
+            room_info = f"Default State ({wall_count} walls, {obstacle_count} obstacles)"
+            print(f"🎨 RENDERER: Using default state with {wall_count} walls")
+        
+        # Arena layout
         arena_rect = pygame.Rect(
             self.arena_offset_x, 
             self.arena_offset_y,
             self.arena_width, 
             self.arena_height
         )
-        # Scale is 1:1 since window is sized to fit arena
-        self.scale = 1.0
         
-        # Arena header
-        if self.viewing_mode != "default":
-            header_text = f"🏟️ Room: {self.viewing_mode} ({self.arena_width}x{self.arena_height})"
-        else:
-            header_text = f"🏟️ Combat Arena ({self.arena_width}x{self.arena_height})"
+        # Header với room info
+        header_text = f"🏟️ Combat Arena ({self.arena_width}x{self.arena_height})"
         header_surface = self.fonts['normal'].render(header_text, True, ModernColors.TEXT_PRIMARY)
         self.screen.blit(header_surface, (self.arena_offset_x, self.arena_offset_y - 30))
+        
+        # Room info detail
+        room_surface = self.fonts['small'].render(room_info, True, ModernColors.TEXT_SECONDARY)
+        self.screen.blit(room_surface, (self.arena_offset_x, self.arena_offset_y - 10))
         
         # Arena background
         pygame.draw.rect(self.screen, ModernColors.ARENA_BG, arena_rect)
         
-        # Animated border
-        border_phase = math.sin(self.title_glow_phase) % 1.0
-        if border_phase < 0.33:
+        # Border color theo room
+        if self.viewing_mode == "room_001":
             border_color = ModernColors.NEON_CYAN
-        elif border_phase < 0.66:
+        elif self.viewing_mode == "room_002":
             border_color = ModernColors.NEON_PINK
         else:
             border_color = ModernColors.NEON_YELLOW
             
         pygame.draw.rect(self.screen, border_color, arena_rect, width=2)
         
-        # Render game elements
+        # Render walls (QUAN TRỌNG)
+        print(f"🎨 RENDERER: Rendering {len(game_state.walls)} walls")
         self._render_walls(game_state, arena_rect)
+        
+        # Render các element khác
         self._render_bullets(game_state, arena_rect)
         self._render_bots(game_state, arena_rect)
         
-        # Debug info overlay
+        # Debug info
         if self.show_debug:
             self._render_debug_overlay(game_state, arena_rect)
-        
-        # Selected bot info
-        if self.selected_bot and self.selected_bot.id in game_state.bots:
-            self._render_selected_bot_info()
     
     def _render_walls(self, game_state, arena_rect):
-        """Render walls"""
-        for wall in game_state.walls:
+        """Render walls với debug info"""
+        print(f"🧱 RENDERER: Rendering {len(game_state.walls)} walls")
+        
+        for i, wall in enumerate(game_state.walls):
             wall_rect = pygame.Rect(
                 arena_rect.x + wall.x,
                 arena_rect.y + wall.y,
@@ -406,7 +425,11 @@ class GameRenderer:
                 wall.height
             )
             
-            # 3D effect
+            # Debug: In thông tin wall
+            if i < 6:  # Chỉ in 6 walls đầu để không spam
+                print(f"🧱 Wall {i}: ({wall.x}, {wall.y}) {wall.width}x{wall.height}")
+            
+            # Render wall
             pygame.draw.rect(self.screen, ModernColors.WALL_PRIMARY, wall_rect)
             pygame.draw.rect(self.screen, ModernColors.WALL_BORDER, wall_rect, width=2)
             
@@ -714,24 +737,30 @@ class GameRenderer:
         logger.info("Renderer stopped")
 
     def _cycle_viewing_room(self, game_engine):
-        """Cycle through available room states for viewing"""
+        """Cycle through available room states - FIXED TO WORK IMMEDIATELY"""
         room_states = game_engine.get_all_room_states()
+        
+        print(f"🔄 RENDERER: Available room states: {list(room_states.keys())}")
+        print(f"🔄 RENDERER: Current viewing mode: {self.viewing_mode}")
+        
         if not room_states:
             logger.info("🔄 No room states available")
             return
         
-        room_ids = list(room_states.keys())
+        # Danh sách rooms: default + room states
+        room_ids = ["default"] + list(room_states.keys())
         
-        if self.viewing_mode == "default" or self.viewing_mode not in room_ids:
-            # Switch to first room
-            self.viewing_mode = room_ids[0]
+        if self.viewing_mode not in room_ids:
+            # Chuyển tới room đầu tiên (không phải default)
+            self.viewing_mode = room_ids[1] if len(room_ids) > 1 else room_ids[0]
         else:
-            # Cycle to next room
+            # Cycle tới room tiếp theo
             current_idx = room_ids.index(self.viewing_mode)
             next_idx = (current_idx + 1) % len(room_ids)
             self.viewing_mode = room_ids[next_idx]
         
-        logger.info(f"🔄 Now viewing room: {self.viewing_mode}")
+        logger.info(f"🔄 Now viewing: {self.viewing_mode}")
+        print(f"🔄 RENDERER: Switched to: {self.viewing_mode}")
 
 
 # Keep the original class name for compatibility

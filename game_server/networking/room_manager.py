@@ -1,6 +1,7 @@
 import json
 import logging
 import time
+import os
 from typing import Dict, List, Optional
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -26,10 +27,10 @@ class Room:
     created_time: float = field(default_factory=time.time)
 
 class RoomManager:
-    """Room-based system replacing matchmaking"""
+    """Room-based system replacing matchmaking - FIXED"""
     
-    def __init__(self, rooms_config_path: str = "rooms.json"):
-        print(f"ROOM_MANAGER DEBUG: Init started with path: {rooms_config_path}")
+    def __init__(self, rooms_config_path: str = "arena_battle_game/rooms.json"):
+        print(f"🔧 ROOM_MANAGER: Init started")
         self.rooms_config_path = rooms_config_path
         self.rooms: Dict[str, Room] = {}
         self.player_to_room: Dict[str, str] = {}
@@ -37,23 +38,33 @@ class RoomManager:
         # Statistics
         self.total_players_served = 0
         
-        # Load rooms from config
-        print("ROOM_MANAGER DEBUG: About to load config")
+        # Load rooms from config - FIXED PATH RESOLUTION
         self._load_rooms_config()
-        print(f"ROOM_MANAGER DEBUG: Config loaded, found {len(self.rooms)} rooms")
-        
-        logger.info(f"🏠 Room Manager initialized with {len(self.rooms)} rooms")
-        print("ROOM_MANAGER DEBUG: Init completed")
+        print(f"✅ ROOM_MANAGER: Initialized with {len(self.rooms)} rooms")
+    
     def _load_rooms_config(self):
-        """Load rooms from JSON config file"""
+        """Load rooms from JSON config file - FIXED PATH RESOLUTION"""
         try:
-            config_path = Path(self.rooms_config_path)
-            if not config_path.exists():
+            # ✅ FIX: Tìm file từ project root
+            current_file = os.path.abspath(__file__)
+            current_dir = os.path.dirname(current_file)
+            
+            # Đi từ game_server/networking/room_manager.py -> project root
+            project_root = os.path.dirname(os.path.dirname(os.path.dirname(current_dir)))
+            config_path = os.path.join(project_root, self.rooms_config_path)
+            
+            print(f"🔍 ROOM_MANAGER: Looking for config at: {config_path}")
+            print(f"🔍 ROOM_MANAGER: File exists: {os.path.exists(config_path)}")
+            
+            if not os.path.exists(config_path):
                 logger.error(f"❌ rooms.json not found at {config_path}")
+                self._create_default_rooms()
                 return
                 
             with open(config_path, 'r', encoding='utf-8') as f:
                 rooms_data = json.load(f)
+            
+            print(f"📋 ROOM_MANAGER: Successfully loaded {len(rooms_data)} rooms")
             
             for room_id, room_config in rooms_data.items():
                 room = Room(
@@ -63,11 +74,51 @@ class RoomManager:
                     arena_config=room_config['arena']
                 )
                 self.rooms[room_id] = room
-                logger.info(f"📋 Loaded room: {room_id} (max: {room.max_players} players)")
+                
+                # Debug obstacle info
+                obstacle_count = len(room_config['arena'].get('obstacles', []))
+                print(f"🏠 ROOM_MANAGER: Room '{room_id}' -> {obstacle_count} obstacles")
+                for i, obs in enumerate(room_config['arena'].get('obstacles', [])):
+                    print(f"   Obstacle {i+1}: ({obs['x']}, {obs['y']}) {obs['width']}x{obs['height']}")
+                
+                logger.info(f"📋 Loaded room: {room_id} (max: {room.max_players} players, {obstacle_count} obstacles)")
                 
         except Exception as e:
             logger.error(f"💥 Failed to load rooms config: {e}")
+            print(f"🔥 ROOM_MANAGER ERROR: {e}")
+            import traceback
+            traceback.print_exc()
+            self._create_default_rooms()
     
+    def _create_default_rooms(self):
+        """Create default rooms if config loading fails"""
+        print("🔧 ROOM_MANAGER: Creating default rooms...")
+        default_rooms = {
+            "room_default": {
+                "password": "default123",
+                "max_players": 4,
+                "arena": {
+                    "width": 800,
+                    "height": 600,
+                    "obstacles": [
+                        {"x": 300, "y": 200, "width": 6000, "height": 120},
+                        {"x": 500, "y": 350, "width": 120, "height": 60}
+                    ]
+                }
+            }
+        }
+        
+        for room_id, room_config in default_rooms.items():
+            room = Room(
+                id=room_id,
+                password=room_config['password'],
+                max_players=room_config['max_players'],
+                arena_config=room_config['arena']
+            )
+            self.rooms[room_id] = room
+            logger.info(f"📋 Created default room: {room_id}")
+    
+    # Rest of the methods remain the same...
     def join_room(self, player_id: str, bot_name: str, room_id: str, room_password: str) -> Dict:
         """Join a specific room with password"""
         
@@ -81,9 +132,10 @@ class RoomManager:
         
         # Check if room exists
         if room_id not in self.rooms:
+            available_rooms = list(self.rooms.keys())
             return {
                 'success': False,
-                'message': f"❌ Room ID '{room_id}' does not exist",
+                'message': f"❌ Room ID '{room_id}' does not exist. Available: {available_rooms}",
                 'bot_id': 0
             }
         
@@ -123,6 +175,10 @@ class RoomManager:
         else:
             status_msg += " - ⏳ Waiting for more players..."
         
+        # Debug arena config being returned
+        obstacle_count = len(room.arena_config.get('obstacles', []))
+        print(f"🎯 ROOM_MANAGER: Returning arena config with {obstacle_count} obstacles for room {room_id}")
+        
         logger.info(f"👤 {player_id} → Room {room_id} ({players_count}/{room.max_players})")
         
         return {
@@ -131,7 +187,7 @@ class RoomManager:
             'bot_id': bot_id,
             'message': status_msg,
             'players_in_room': players_count,
-            'arena_config': room.arena_config
+            'arena_config': room.arena_config 
         }
     
     def _generate_bot_id(self, player: Player, room: Room) -> int:
