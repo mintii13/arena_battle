@@ -1,6 +1,8 @@
 # Script run
+# conda activate arena_battle
 # python -m game_server.main
 # python -m ai_bot.main --player-id player001
+# python -m ai_bot.main --player-id player002 --room-id room_001 --room-password abc123
 # Add --auto-load to resume from last save checkpoint in model/checkpoint
 # It will wait until other players join then auto start the game
 # This model i use the PPO algorithm so it is a little bit stupid, u can try another one to learn for ai_bot 
