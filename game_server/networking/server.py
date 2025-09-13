@@ -239,14 +239,11 @@ class ArenaBattleServicer(arena_pb2_grpc.ArenaBattleServiceServicer):
             connection = self.connections.get(bot_id)
             if not connection:
                 return
-            
+
             player_room_id = self.room_manager.player_to_room.get(connection.player_id, "")
             room_info = self.room_manager.get_room_info(player_room_id)
-            if 'error' in room_info or not room_info.get('is_active', False):
-                # Room not active yet, ignore actions but keep connection alive
-                return
-            
-            # Process action normally for active rooms
+
+            # Process action for the correct room
             action = {
                 'thrust': {
                     'x': action_request.thrust.x,
@@ -255,8 +252,13 @@ class ArenaBattleServicer(arena_pb2_grpc.ArenaBattleServiceServicer):
                 'aim_angle': action_request.aim_angle,
                 'fire': action_request.fire
             }
-            
-            self.game_engine.physics.apply_bot_action(bot_id, action)
+
+            # Apply action to correct room's physics engine
+            if player_room_id and player_room_id in self.game_engine.physics_engines:
+                self.game_engine.physics_engines[player_room_id].apply_bot_action(bot_id, action)
+                print(f"🎮 ACTION: Applied action for bot {bot_id} in room {player_room_id}")
+            else:
+                print(f"⚠️ ACTION: No physics engine found for room {player_room_id}")
             
         except Exception as e:
             logger.error(f"💥 Action processing error: {e}")

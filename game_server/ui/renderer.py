@@ -243,16 +243,16 @@ class GameRenderer:
         self._render_stats(game_engine, y_offset)
         y_offset += 180
         
-        # Room info
-        room_title = self.fonts['subtitle'].render("🏠 Room Info", True, ModernColors.NEON_CYAN)
-        self.screen.blit(room_title, (25, y_offset))
-        y_offset += 25
+        # # Room info
+        # room_title = self.fonts['subtitle'].render("🏠 Room Info", True, ModernColors.NEON_CYAN)
+        # self.screen.blit(room_title, (25, y_offset + 5))
+        # y_offset += 25
         
-        # Display current room (placeholder)
-        room_text = f"Current: room_001 (2/4)"
-        room_surface = self.fonts['small'].render(room_text, True, ModernColors.TEXT_SECONDARY)
-        self.screen.blit(room_surface, (25, y_offset))
-        y_offset += 40
+        # # Display current room (placeholder)
+        # room_text = f"Current: room_001"
+        # room_surface = self.fonts['small'].render(room_text, True, ModernColors.TEXT_SECONDARY)
+        # self.screen.blit(room_surface, (25, y_offset))
+        # y_offset += 40
         
         # Bot list
         self._render_bot_list(game_engine, y_offset)
@@ -296,9 +296,26 @@ class GameRenderer:
     def _render_bot_list(self, game_engine, y):
         """Render compact bot list"""
         bots_title = self.fonts['subtitle'].render("🤖 Active Bots", True, ModernColors.NEON_CYAN)
-        self.screen.blit(bots_title, (25, y + 20))
+        self.screen.blit(bots_title, (25, y + 10))
         y += 25
-        bots = list(game_engine.game_state.bots.values())[:5]  # Show max 5 bots
+
+        # Get bots from current viewing room
+        if self.viewing_mode != "default":
+            room_state = game_engine.get_room_state(self.viewing_mode)
+            if room_state:
+                bots = list(room_state.bots.values())[:5]
+            else:
+                bots = []
+        else:
+            # Fallback: get bots from first available room
+            available_rooms = list(game_engine.room_states.keys())
+            if available_rooms:
+                first_room = game_engine.room_states[available_rooms[0]]
+                bots = list(first_room.bots.values())[:5]
+            else:
+                bots = []
+
+        print(f"🎨 RENDERER: Showing {len(bots)} bots from room {self.viewing_mode}")
         for bot in bots:
             # Status color
             if bot.state == BotState.ALIVE:

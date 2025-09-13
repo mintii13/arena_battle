@@ -189,14 +189,17 @@ class GameEngine:
             
             # Update physics for each room
             for room_id, room_state in self.room_states.items():
+                total_bots = len(room_state.bots)
                 alive_bots = len(room_state.get_alive_bots())
                 
-                if alive_bots >= 2:
+                if total_bots >= 2:
                     # Active room - full physics
                     self.physics_engines[room_id].update(min(dt, 0.1))
-                elif alive_bots > 0:
+                    print(f"🎮 PHYSICS: Room {room_id} - {total_bots} total bots, {alive_bots} alive - ACTIVE")
+                elif total_bots > 0:
                     # Waiting room - slow physics
                     self.physics_engines[room_id].update(min(dt, 0.1) * 0.1)
+                    print(f"⏳ PHYSICS: Room {room_id} - {total_bots} total bots, {alive_bots} alive - WAITING")
             
             # Control game speed - MUST yield control to other tasks
             sleep_time = 1/60 / self.game_state.speed_multiplier  
