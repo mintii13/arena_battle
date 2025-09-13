@@ -198,10 +198,6 @@ class GameEngine:
                     # Waiting room - slow physics
                     self.physics_engines[room_id].update(min(dt, 0.1) * 0.1)
             
-            # Also update default state for compatibility
-            alive_bots = len(self.game_state.get_alive_bots())
-            if alive_bots > 0:
-                self.physics.update(min(dt, 0.1))
             # Control game speed - MUST yield control to other tasks
             sleep_time = 1/60 / self.game_state.speed_multiplier  
             await asyncio.sleep(max(0.001, sleep_time))

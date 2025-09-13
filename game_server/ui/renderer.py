@@ -364,12 +364,20 @@ class GameRenderer:
                 room_info = f"Default State (room '{self.viewing_mode}' not found)"
                 print(f"🎨 RENDERER: Room '{self.viewing_mode}' not found, using default")
         else:
-            # Hiển thị default state
-            game_state = game_engine.game_state
-            wall_count = len(game_state.walls)
-            obstacle_count = wall_count - 4
-            room_info = f"Default State ({wall_count} walls, {obstacle_count} obstacles)"
-            print(f"🎨 RENDERER: Using default state with {wall_count} walls")
+            # Fallback to first available room instead of default
+            available_rooms = list(game_engine.room_states.keys())
+            if available_rooms:
+                fallback_room = available_rooms[0]
+                game_state = game_engine.room_states[fallback_room]
+                wall_count = len(game_state.walls)
+                obstacle_count = wall_count - 4
+                room_info = f"Viewing: {fallback_room} ({wall_count} walls, {obstacle_count} obstacles)"
+                print(f"🎨 RENDERER: Using fallback room {fallback_room} with {wall_count} walls")
+            else:
+                # Create empty state for display
+                from game_server.engine.game_state import GameState
+                game_state = GameState()
+                room_info = "No rooms available"
         
         # Arena layout
         arena_rect = pygame.Rect(
@@ -748,7 +756,7 @@ class GameRenderer:
             return
         
         # Danh sách rooms: default + room states
-        room_ids = ["default"] + list(room_states.keys())
+        room_ids = list(room_states.keys())
         
         if self.viewing_mode not in room_ids:
             # Chuyển tới room đầu tiên (không phải default)

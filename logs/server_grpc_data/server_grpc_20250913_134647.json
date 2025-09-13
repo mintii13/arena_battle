@@ -1,0 +1,39 @@
+[
+{
+  "timestamp": "2025-09-13T13:46:57.036201",
+  "timestamp_ms": 1757746017036,
+  "type": "bot_registration",
+  "player_id": "player001",
+  "data": {
+    "bot_name": "player001",
+    "bot_id": 1,
+    "success": true,
+    "message": "✅ Joined room room_001 (1/4 players) - ⏳ Waiting for more players..."
+  }
+},
+{
+  "timestamp": "2025-09-13T13:46:57.036201",
+  "timestamp_ms": 1757746017036,
+  "type": "match_event",
+  "match_id": "room_001",
+  "event_type": "player_assigned",
+  "data": {
+    "player_id": "player001",
+    "bot_id": 1,
+    "bot_name": "player001",
+    "players_in_room": 1,
+    "room_id": "room_001"
+  }
+},
+{
+  "timestamp": "2025-09-13T13:50:25.594256",
+  "timestamp_ms": 1757746225594,
+  "type": "bot_registration",
+  "player_id": "player001",
+  "data": {
+    "bot_name": "player001",
+    "bot_id": 0,
+    "success": false,
+    "message": "Player player001 already in room room_001"
+  }
+}

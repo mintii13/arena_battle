@@ -99,8 +99,6 @@ class ArenaBattleServicer(arena_pb2_grpc.ArenaBattleServiceServicer):
             # Create bot in game engine
             room_state = self.game_engine.get_or_create_room_state(room_id, room_result['arena_config'])
             bot_id = room_state.add_bot(player_id, actual_bot_name, room_result['arena_config'], room_id)
-            # Also add to default state for compatibility
-            default_bot_id = self.game_engine.game_state.add_bot(player_id, actual_bot_name, room_result['arena_config'], room_id)
             
             # Log successful registration
             if self.json_logger:
@@ -148,15 +146,18 @@ class ArenaBattleServicer(arena_pb2_grpc.ArenaBattleServiceServicer):
         bot_connection = None
         
         try:
-            # Find unconnected bot and establish connection
+            # Find available bot and establish connection
             bot_id = None
             player_id = None
-            
-            # Find available bot
-            for bid, bot in self.game_engine.game_state.bots.items():
-                if bid not in self.connections:
-                    bot_id = bid
-                    player_id = bot.player_id
+
+            # First, find which player needs connection by checking all room states
+            for room_id, room_state in self.game_engine.room_states.items():
+                for bid, bot in room_state.bots.items():
+                    if bid not in self.connections:
+                        bot_id = bid
+                        player_id = bot.player_id
+                        break
+                if bot_id:
                     break
             
             if bot_id is None:
@@ -280,13 +281,13 @@ class ArenaBattleServicer(arena_pb2_grpc.ArenaBattleServiceServicer):
                 is_room_active = room_info.get('is_active', False) if 'error' not in room_info else False
                 
                 if is_room_active:
-                    # Get observation from correct room state
+                    # Get observation from correct room state ONLY
                     player_room_id = self.room_manager.player_to_room.get(connection.player_id, "")
                     room_state = self.game_engine.get_room_state(player_room_id)
                     if room_state:
                         obs_data = room_state.get_observation(connection.bot_id)
                     else:
-                        obs_data = self.game_engine.game_state.get_observation(connection.bot_id)
+                        obs_data = None  # Don't fall back to default
                     
                     if obs_data:
                         observation = arena_pb2.Observation(
@@ -377,9 +378,13 @@ class ArenaBattleServicer(arena_pb2_grpc.ArenaBattleServiceServicer):
             
             # Remove from room manager
             removed = self.room_manager.leave_room(connection.player_id)
-            
-            # Remove bot from game
-            self.game_engine.game_state.remove_bot(connection.bot_id)
+
+            # Remove bot from correct room state
+            player_room_id = self.room_manager.player_to_room.get(connection.player_id)
+            if player_room_id:
+                room_state = self.game_engine.get_room_state(player_room_id)
+                if room_state:
+                    room_state.remove_bot(connection.bot_id)
             
             # Log disconnection
             if self.json_logger:

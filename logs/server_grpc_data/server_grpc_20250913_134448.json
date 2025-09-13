@@ -1,0 +1,101 @@
+[
+{
+  "timestamp": "2025-09-13T13:44:56.655546",
+  "timestamp_ms": 1757745896655,
+  "type": "bot_registration",
+  "player_id": "player002",
+  "data": {
+    "bot_name": "player002",
+    "bot_id": 1,
+    "success": true,
+    "message": "✅ Joined room room_001 (1/4 players) - ⏳ Waiting for more players..."
+  }
+},
+{
+  "timestamp": "2025-09-13T13:44:56.655546",
+  "timestamp_ms": 1757745896655,
+  "type": "match_event",
+  "match_id": "room_001",
+  "event_type": "player_assigned",
+  "data": {
+    "player_id": "player002",
+    "bot_id": 1,
+    "bot_name": "player002",
+    "players_in_room": 1,
+    "room_id": "room_001"
+  }
+},
+{
+  "timestamp": "2025-09-13T13:45:17.600776",
+  "timestamp_ms": 1757745917600,
+  "type": "bot_registration",
+  "player_id": "player002",
+  "data": {
+    "bot_name": "player002",
+    "bot_id": 0,
+    "success": false,
+    "message": "Player player002 already in room room_001"
+  }
+},
+{
+  "timestamp": "2025-09-13T13:45:27.736835",
+  "timestamp_ms": 1757745927736,
+  "type": "bot_registration",
+  "player_id": "player001",
+  "data": {
+    "bot_name": "player001",
+    "bot_id": 0,
+    "success": false,
+    "message": "❌ Wrong password for room 'room_001'"
+  }
+},
+{
+  "timestamp": "2025-09-13T13:45:37.282100",
+  "timestamp_ms": 1757745937282,
+  "type": "bot_registration",
+  "player_id": "player001",
+  "data": {
+    "bot_name": "player001",
+    "bot_id": 2,
+    "success": true,
+    "message": "✅ Joined room room_001 (2/4 players) - ⚔️ Battle active!"
+  }
+},
+{
+  "timestamp": "2025-09-13T13:45:37.282100",
+  "timestamp_ms": 1757745937282,
+  "type": "match_event",
+  "match_id": "room_001",
+  "event_type": "player_assigned",
+  "data": {
+    "player_id": "player001",
+    "bot_id": 2,
+    "bot_name": "player001",
+    "players_in_room": 2,
+    "room_id": "room_001"
+  }
+},
+{
+  "timestamp": "2025-09-13T13:46:16.995528",
+  "timestamp_ms": 1757745976995,
+  "type": "bot_registration",
+  "player_id": "player002",
+  "data": {
+    "bot_name": "player002",
+    "bot_id": 0,
+    "success": false,
+    "message": "Player player002 already in room room_001"
+  }
+},
+{
+  "timestamp": "2025-09-13T13:46:40.413060",
+  "timestamp_ms": 1757746000413,
+  "type": "bot_registration",
+  "player_id": "player001",
+  "data": {
+    "bot_name": "player001",
+    "bot_id": 0,
+    "success": false,
+    "message": "Player player001 already in room room_001"
+  }
+}

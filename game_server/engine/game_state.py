@@ -126,7 +126,7 @@ class GameState:
         self.bots[bot_id] = bot
         
         # Update arena walls if room-specific config provided
-        if arena_config:
+        if arena_config and len(self.bots) == 0:
             self._create_arena_walls(arena_config)
             self.room_id = room_id  # Track room for this state
         
