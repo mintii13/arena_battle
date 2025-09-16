@@ -87,18 +87,13 @@ class GameState:
             Wall(self.width - wall_thickness, 0, wall_thickness, self.height),  # Right
         ]
         
-        print(f"GAME_STATE DEBUG: Creating arena with config: {arena_config}")
-        
         # Add room-specific obstacles
         if arena_config and 'obstacles' in arena_config:
-            print(f"GAME_STATE DEBUG: Adding {len(arena_config['obstacles'])} obstacles")
             for i, obs in enumerate(arena_config['obstacles']):
                 wall = Wall(obs['x'], obs['y'], obs['width'], obs['height'])
                 self.walls.append(wall)
-                print(f"GAME_STATE DEBUG: Added obstacle {i}: x={obs['x']}, y={obs['y']}, w={obs['width']}, h={obs['height']}")
         else:
             # Default obstacles (fallback)
-            print("GAME_STATE DEBUG: Using default obstacles")
             center_x, center_y = self.width // 2, self.height // 2
             self.walls.extend([
                 Wall(center_x - 60, center_y - 15, 120, 30),  # Horizontal center

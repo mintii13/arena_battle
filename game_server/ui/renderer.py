@@ -315,7 +315,6 @@ class GameRenderer:
             else:
                 bots = []
 
-        print(f"🎨 RENDERER: Showing {len(bots)} bots from room {self.viewing_mode}")
         for bot in bots:
             # Status color
             if bot.state == BotState.ALIVE:
@@ -364,8 +363,6 @@ class GameRenderer:
         game_state = None
         room_info = ""
         
-        print(f"🎨 RENDERER: Rendering arena, viewing_mode = {self.viewing_mode}")
-        
         if self.viewing_mode != "default":
             # Hiển thị room cụ thể
             room_state = game_engine.get_room_state(self.viewing_mode)
@@ -374,12 +371,10 @@ class GameRenderer:
                 wall_count = len(room_state.walls)
                 obstacle_count = wall_count - 4  # Trừ 4 boundary walls
                 room_info = f"Room: {self.viewing_mode} ({wall_count} walls, {obstacle_count} obstacles)"
-                print(f"🎨 RENDERER: Using room state '{self.viewing_mode}' with {wall_count} walls")
             else:
                 # Fallback nếu không tìm thấy room state
                 game_state = game_engine.game_state
                 room_info = f"Default State (room '{self.viewing_mode}' not found)"
-                print(f"🎨 RENDERER: Room '{self.viewing_mode}' not found, using default")
         else:
             # Fallback to first available room instead of default
             available_rooms = list(game_engine.room_states.keys())
@@ -389,7 +384,6 @@ class GameRenderer:
                 wall_count = len(game_state.walls)
                 obstacle_count = wall_count - 4
                 room_info = f"Viewing: {fallback_room} ({wall_count} walls, {obstacle_count} obstacles)"
-                print(f"🎨 RENDERER: Using fallback room {fallback_room} with {wall_count} walls")
             else:
                 # Create empty state for display
                 from game_server.engine.game_state import GameState
@@ -427,7 +421,6 @@ class GameRenderer:
         pygame.draw.rect(self.screen, border_color, arena_rect, width=2)
         
         # Render walls (QUAN TRỌNG)
-        print(f"🎨 RENDERER: Rendering {len(game_state.walls)} walls")
         self._render_walls(game_state, arena_rect)
         
         # Render các element khác
@@ -440,8 +433,6 @@ class GameRenderer:
     
     def _render_walls(self, game_state, arena_rect):
         """Render walls với debug info"""
-        print(f"🧱 RENDERER: Rendering {len(game_state.walls)} walls")
-        
         for i, wall in enumerate(game_state.walls):
             wall_rect = pygame.Rect(
                 arena_rect.x + wall.x,
@@ -449,10 +440,6 @@ class GameRenderer:
                 wall.width,
                 wall.height
             )
-            
-            # Debug: In thông tin wall
-            if i < 6:  # Chỉ in 6 walls đầu để không spam
-                print(f"🧱 Wall {i}: ({wall.x}, {wall.y}) {wall.width}x{wall.height}")
             
             # Render wall
             pygame.draw.rect(self.screen, ModernColors.WALL_PRIMARY, wall_rect)
@@ -765,9 +752,6 @@ class GameRenderer:
         """Cycle through available room states - FIXED TO WORK IMMEDIATELY"""
         room_states = game_engine.get_all_room_states()
         
-        print(f"🔄 RENDERER: Available room states: {list(room_states.keys())}")
-        print(f"🔄 RENDERER: Current viewing mode: {self.viewing_mode}")
-        
         if not room_states:
             logger.info("🔄 No room states available")
             return
@@ -785,8 +769,6 @@ class GameRenderer:
             self.viewing_mode = room_ids[next_idx]
         
         logger.info(f"🔄 Now viewing: {self.viewing_mode}")
-        print(f"🔄 RENDERER: Switched to: {self.viewing_mode}")
-
 
 # Keep the original class name for compatibility
 ModernGameRenderer = GameRenderer

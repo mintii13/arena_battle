@@ -42,5 +42,21 @@
                 }
             ]
         }
+    },
+    "room_003": {
+        "password": "abc789",
+        "max_players": 4,
+        "arena": {
+            "width": 800,
+            "height": 600,
+            "obstacles": [
+                {
+                    "x": 400,
+                    "y": 100,
+                    "width": 80,
+                    "height": 80
+                }
+            ]
+        }
     }
 }

@@ -30,7 +30,6 @@ class RoomManager:
     """Room-based system replacing matchmaking - FIXED"""
     
     def __init__(self, rooms_config_path: str = "arena_battle_game/rooms.json"):
-        print(f"🔧 ROOM_MANAGER: Init started")
         self.rooms_config_path = rooms_config_path
         self.rooms: Dict[str, Room] = {}
         self.player_to_room: Dict[str, str] = {}
@@ -40,7 +39,6 @@ class RoomManager:
         
         # Load rooms from config - FIXED PATH RESOLUTION
         self._load_rooms_config()
-        print(f"✅ ROOM_MANAGER: Initialized with {len(self.rooms)} rooms")
     
     def _load_rooms_config(self):
         """Load rooms from JSON config file - FIXED PATH RESOLUTION"""
@@ -53,9 +51,6 @@ class RoomManager:
             project_root = os.path.dirname(os.path.dirname(os.path.dirname(current_dir)))
             config_path = os.path.join(project_root, self.rooms_config_path)
             
-            print(f"🔍 ROOM_MANAGER: Looking for config at: {config_path}")
-            print(f"🔍 ROOM_MANAGER: File exists: {os.path.exists(config_path)}")
-            
             if not os.path.exists(config_path):
                 logger.error(f"❌ rooms.json not found at {config_path}")
                 self._create_default_rooms()
@@ -63,8 +58,6 @@ class RoomManager:
                 
             with open(config_path, 'r', encoding='utf-8') as f:
                 rooms_data = json.load(f)
-            
-            print(f"📋 ROOM_MANAGER: Successfully loaded {len(rooms_data)} rooms")
             
             for room_id, room_config in rooms_data.items():
                 room = Room(
@@ -75,24 +68,18 @@ class RoomManager:
                 )
                 self.rooms[room_id] = room
                 
-                # Debug obstacle info
+                # ✅ FIXED: Calculate obstacle_count
                 obstacle_count = len(room_config['arena'].get('obstacles', []))
-                print(f"🏠 ROOM_MANAGER: Room '{room_id}' -> {obstacle_count} obstacles")
-                for i, obs in enumerate(room_config['arena'].get('obstacles', [])):
-                    print(f"   Obstacle {i+1}: ({obs['x']}, {obs['y']}) {obs['width']}x{obs['height']}")
-                
                 logger.info(f"📋 Loaded room: {room_id} (max: {room.max_players} players, {obstacle_count} obstacles)")
                 
         except Exception as e:
             logger.error(f"💥 Failed to load rooms config: {e}")
-            print(f"🔥 ROOM_MANAGER ERROR: {e}")
             import traceback
             traceback.print_exc()
             self._create_default_rooms()
     
     def _create_default_rooms(self):
         """Create default rooms if config loading fails"""
-        print("🔧 ROOM_MANAGER: Creating default rooms...")
         default_rooms = {
             "room_default": {
                 "password": "default123",

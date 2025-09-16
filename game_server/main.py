@@ -16,11 +16,7 @@ sys.path.insert(0, proto_dir)
 # Direct import from proto directory
 try:
     from proto import arena_pb2, arena_pb2_grpc
-    print("✅ Proto import successful in server main")
 except ImportError as e:
-    print(f"⚠️ Proto import failed at main: {e}")
-    print(f"Proto dir: {proto_dir}")
-    print(f"Files exist: {os.path.exists(os.path.join(proto_dir, 'arena_pb2.py'))}")
     sys.exit(1)
 
 from game_server.engine.game_state import GameState, Wall
@@ -51,8 +47,6 @@ class GameEngine:
         try:
             import json
             
-            print("🔧 GAME_ENGINE: Starting room state preloading...")
-            
             # Find rooms.json với multiple paths
             possible_paths = [
                 "rooms.json",  # Current working directory
@@ -67,7 +61,6 @@ class GameEngine:
             project_root = os.path.dirname(os.path.dirname(current_file))
             possible_paths.append(os.path.join(project_root, "rooms.json"))
             
-            print(f"🔧 GAME_ENGINE: Current working directory: {os.getcwd()}")
             print(f"🔧 GAME_ENGINE: Current file location: {current_file}")
             print(f"🔧 GAME_ENGINE: Project root: {project_root}")
             
@@ -76,8 +69,6 @@ class GameEngine:
             for i, path in enumerate(possible_paths):
                 abs_path = os.path.abspath(path)
                 exists = os.path.exists(abs_path)
-                print(f"🔧 GAME_ENGINE: Path {i+1}: {abs_path} -> {'EXISTS' if exists else 'NOT FOUND'}")
-                
                 if exists:
                     rooms_json_path = abs_path
                     break
@@ -87,8 +78,6 @@ class GameEngine:
                 print("❌ GAME_ENGINE: Make sure rooms.json is in the project root directory")
                 return
             
-            print(f"✅ GAME_ENGINE: Using rooms.json from: {rooms_json_path}")
-            
             # Load JSON file
             with open(rooms_json_path, 'r', encoding='utf-8') as f:
                 rooms_data = json.load(f)
@@ -97,7 +86,6 @@ class GameEngine:
             
             # Create room states
             for room_id, room_config in rooms_data.items():
-                print(f"🏗️ GAME_ENGINE: Processing room '{room_id}'")
                 
                 # Create new GameState for this room
                 room_state = GameState()
@@ -107,12 +95,10 @@ class GameEngine:
                 arena_config = room_config.get('arena', {})
                 obstacles = arena_config.get('obstacles', [])
                 
-                print(f"🏗️ GAME_ENGINE: Room '{room_id}' has {len(obstacles)} obstacles")
                 for j, obs in enumerate(obstacles):
                     print(f"   Obstacle {j+1}: x={obs['x']}, y={obs['y']}, w={obs['width']}, h={obs['height']}")
                 
                 # Apply arena walls - THIS IS THE KEY PART
-                print(f"🏗️ GAME_ENGINE: Calling _create_arena_walls for room '{room_id}'")
                 room_state._create_arena_walls(arena_config)
                 
                 # Verify walls were created correctly
@@ -166,15 +152,12 @@ class GameEngine:
     def get_room_state(self, room_id):
         """Get specific room state with debug info"""
         exists = room_id in self.room_states
-        print(f"🔍 GET_ROOM: Looking for '{room_id}' -> {'FOUND' if exists else 'NOT FOUND'}")
         
         if exists:
             state = self.room_states[room_id]
             wall_count = len(state.walls)
-            print(f"🔍 GET_ROOM: Room '{room_id}' has {wall_count} walls")
             return state
         else:
-            print(f"🔍 GET_ROOM: Available rooms: {list(self.room_states.keys())}")
             return None
     
     async def run(self):
@@ -195,11 +178,9 @@ class GameEngine:
                 if total_bots >= 2:
                     # Active room - full physics
                     self.physics_engines[room_id].update(min(dt, 0.1))
-                    print(f"🎮 PHYSICS: Room {room_id} - {total_bots} total bots, {alive_bots} alive - ACTIVE")
                 elif total_bots > 0:
                     # Waiting room - slow physics
                     self.physics_engines[room_id].update(min(dt, 0.1) * 0.1)
-                    print(f"⏳ PHYSICS: Room {room_id} - {total_bots} total bots, {alive_bots} alive - WAITING")
             
             # Control game speed - MUST yield control to other tasks
             sleep_time = 1/60 / self.game_state.speed_multiplier  
@@ -287,18 +268,13 @@ async def main():
     logger.info("🤖 ==========================================")
     
     try:
-        
-        print("MAIN DEBUG: Starting game engine...")
         game_task = asyncio.create_task(game_engine.run())
-
-        print("MAIN DEBUG: Starting server...")
         server_task = asyncio.create_task(run_server(game_engine, args.port, enable_logging=enable_logging))
 
         # Wait a moment for server to be ready
         await asyncio.sleep(0.5)
 
         if renderer:
-            print("MAIN DEBUG: Starting renderer...")
             renderer_task = asyncio.create_task(renderer.run(game_engine))
             await asyncio.gather(game_task, server_task, renderer_task)
         else:

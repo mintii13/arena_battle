@@ -39,22 +39,16 @@ class ArenaBattleServicer(arena_pb2_grpc.ArenaBattleServiceServicer):
     """gRPC service với JSON logging cho tất cả gRPC data"""
     
     def __init__(self, game_engine, enable_logging=True):
-        print("DEBUG: ArenaBattleServicer.__init__ called")
         self.game_engine = game_engine
         
         try:
-            print("DEBUG: Creating RoomManager...")
             self.room_manager = RoomManager()
-            print(f"DEBUG: RoomManager created with {len(self.room_manager.rooms)} rooms")
         except Exception as e:
-            print(f"DEBUG: RoomManager failed: {e}")
             import traceback
             traceback.print_exc()
             
         self.connections: Dict[int, BotConnection] = {}
         self.waiting_connections: Dict[str, BotConnection] = {}
-        
-        print("DEBUG: ArenaBattleServicer init completed")
         
         # Initialize JSON logger
         self.json_logger = None
@@ -256,9 +250,6 @@ class ArenaBattleServicer(arena_pb2_grpc.ArenaBattleServiceServicer):
             # Apply action to correct room's physics engine
             if player_room_id and player_room_id in self.game_engine.physics_engines:
                 self.game_engine.physics_engines[player_room_id].apply_bot_action(bot_id, action)
-                print(f"🎮 ACTION: Applied action for bot {bot_id} in room {player_room_id}")
-            else:
-                print(f"⚠️ ACTION: No physics engine found for room {player_room_id}")
             
         except Exception as e:
             logger.error(f"💥 Action processing error: {e}")
@@ -483,14 +474,9 @@ class ArenaBattleServicer(arena_pb2_grpc.ArenaBattleServiceServicer):
 
 async def run_server(game_engine, port=50051, enable_logging=True):
     """Run the gRPC server với JSON logging"""
-    print(f"RUN_SERVER DEBUG: Starting server on port {port}")
     
     server = grpc.aio.server(futures.ThreadPoolExecutor(max_workers=10))
-    
-    print("RUN_SERVER DEBUG: Creating servicer...")
     servicer = ArenaBattleServicer(game_engine, enable_logging=enable_logging)
-    print("RUN_SERVER DEBUG: Servicer created successfully")
-    
     arena_pb2_grpc.add_ArenaBattleServiceServicer_to_server(servicer, server)
     
     listen_addr = f'[::]:{port}'
@@ -500,15 +486,10 @@ async def run_server(game_engine, port=50051, enable_logging=True):
     
     try:
         await server.start()
-        print("RUN_SERVER DEBUG: Server started successfully and listening")
-        
         # Small delay to ensure server is ready
         await asyncio.sleep(0.1)
-        print("RUN_SERVER DEBUG: Server ready for connections")
-        
         await server.wait_for_termination()
     except Exception as e:
-        print(f"RUN_SERVER DEBUG: Server error: {e}")
         raise
     except KeyboardInterrupt:
         logger.info("🛑 gRPC Server stopped")
