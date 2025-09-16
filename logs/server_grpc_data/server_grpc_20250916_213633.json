@@ -1,0 +1,65 @@
+[
+{
+  "timestamp": "2025-09-16T21:36:43.137343",
+  "timestamp_ms": 1758033403137,
+  "type": "bot_registration",
+  "player_id": "player001",
+  "data": {
+    "bot_name": "player001",
+    "bot_id": 1,
+    "success": true,
+    "message": "✅ Joined room room_002 (1/4 players) - ⏳ Waiting for more players..."
+  }
+},
+{
+  "timestamp": "2025-09-16T21:36:43.137343",
+  "timestamp_ms": 1758033403137,
+  "type": "match_event",
+  "match_id": "room_002",
+  "event_type": "player_assigned",
+  "data": {
+    "player_id": "player001",
+    "bot_id": 1,
+    "bot_name": "player001",
+    "players_in_room": 1,
+    "room_id": "room_002"
+  }
+},
+{
+  "timestamp": "2025-09-16T21:37:11.765236",
+  "timestamp_ms": 1758033431765,
+  "type": "bot_registration",
+  "player_id": "player001",
+  "data": {
+    "bot_name": "player001",
+    "bot_id": 0,
+    "success": false,
+    "message": "Player player001 already in room room_002"
+  }
+},
+{
+  "timestamp": "2025-09-16T21:37:28.558167",
+  "timestamp_ms": 1758033448558,
+  "type": "bot_registration",
+  "player_id": "player002",
+  "data": {
+    "bot_name": "player002",
+    "bot_id": 2,
+    "success": true,
+    "message": "✅ Joined room room_002 (2/4 players) - ⚔️ Battle active!"
+  }
+},
+{
+  "timestamp": "2025-09-16T21:37:28.558167",
+  "timestamp_ms": 1758033448558,
+  "type": "match_event",
+  "match_id": "room_002",
+  "event_type": "player_assigned",
+  "data": {
+    "player_id": "player002",
+    "bot_id": 2,
+    "bot_name": "player002",
+    "players_in_room": 2,
+    "room_id": "room_002"
+  }
+}

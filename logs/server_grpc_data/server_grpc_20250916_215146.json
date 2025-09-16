@@ -1,0 +1,34 @@
+[
+{
+  "timestamp": "2025-09-16T21:51:52.814307",
+  "timestamp_ms": 1758034312814,
+  "type": "game_event",
+  "event_type": "registration_error",
+  "data": {
+    "player_id": "player001",
+    "error": "'ArenaBattleServicer' object has no attribute 'room_manager'"
+  },
+  "related_bots": []
+},
+{
+  "timestamp": "2025-09-16T21:51:54.241726",
+  "timestamp_ms": 1758034314241,
+  "type": "game_event",
+  "event_type": "registration_error",
+  "data": {
+    "player_id": "player002",
+    "error": "'ArenaBattleServicer' object has no attribute 'room_manager'"
+  },
+  "related_bots": []
+},
+{
+  "timestamp": "2025-09-16T21:51:55.486036",
+  "timestamp_ms": 1758034315486,
+  "type": "game_event",
+  "event_type": "registration_error",
+  "data": {
+    "player_id": "player003",
+    "error": "'ArenaBattleServicer' object has no attribute 'room_manager'"
+  },
+  "related_bots": []
+}

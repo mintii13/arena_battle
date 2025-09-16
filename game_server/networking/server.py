@@ -90,10 +90,18 @@ class ArenaBattleServicer(arena_pb2_grpc.ArenaBattleServiceServicer):
                     success=False, message=room_result['message'], bot_id=0
                 )
             
-            # Create bot in game engine
+            # Create bot in game engine using RoomManager's bot ID
             room_state = self.game_engine.get_or_create_room_state(room_id, room_result['arena_config'])
-            bot_id = room_state.add_bot(player_id, actual_bot_name, room_result['arena_config'], room_id)
+            bot_id = room_result['bot_id']  # Use the ID from RoomManager instead
+            room_state.add_bot(player_id, actual_bot_name, room_result['arena_config'], room_id, bot_id)
+            players_count = room_result['players_in_room']
+            max_players = room_result.get('max_players', 4)  # fallback to 4
             
+            if players_count >= 2:
+                status_msg = f"Joined {room_id} ({players_count}/{max_players}) - ⚔️ Combat active!"
+            else:
+                needed = 2 - players_count
+                status_msg = f"Joined {room_id} ({players_count}/{max_players}) - ⏳ Waiting for {needed} more player(s)..."
             # Log successful registration
             if self.json_logger:
                 self.json_logger.log_bot_registration(
@@ -115,7 +123,7 @@ class ArenaBattleServicer(arena_pb2_grpc.ArenaBattleServiceServicer):
             
             return arena_pb2.RegistrationResponse(
                 success=True,
-                message=room_result['message'],
+                message=status_msg,
                 bot_id=room_result['bot_id']
             )
             
@@ -263,76 +271,57 @@ class ArenaBattleServicer(arena_pb2_grpc.ArenaBattleServiceServicer):
                 })
     
     async def _send_observations_with_logging(self, connection: BotConnection, context):
-        """Send observations với JSON logging"""
+        """Send observations with IMPROVED waiting logic"""
         try:
             observation_count = 0
+            last_status_log = 0
             
             while connection.is_active:
-                # Check if room is active
+                # Get room status
                 player_room_id = self.room_manager.player_to_room.get(connection.player_id, "")
                 room_info = self.room_manager.get_room_info(player_room_id)
                 is_room_active = room_info.get('is_active', False) if 'error' not in room_info else False
                 
                 if is_room_active:
-                    # Get observation from correct room state ONLY
-                    player_room_id = self.room_manager.player_to_room.get(connection.player_id, "")
+                    # ACTIVE COMBAT - Send real observations
                     room_state = self.game_engine.get_room_state(player_room_id)
                     if room_state:
                         obs_data = room_state.get_observation(connection.bot_id)
-                    else:
-                        obs_data = None  # Don't fall back to default
-                    
-                    if obs_data:
-                        observation = arena_pb2.Observation(
-                            tick=obs_data['tick'],
-                            self_pos=arena_pb2.Vec2(
-                                x=obs_data['self_pos']['x'],
-                                y=obs_data['self_pos']['y']
-                            ),
-                            self_hp=obs_data['self_hp'],
-                            enemy_pos=arena_pb2.Vec2(
-                                x=obs_data['enemy_pos']['x'],
-                                y=obs_data['enemy_pos']['y']
-                            ),
-                            enemy_hp=obs_data['enemy_hp'],
-                            has_line_of_sight=obs_data['has_line_of_sight'],
-                            arena_width=obs_data['arena_width'],
-                            arena_height=obs_data['arena_height']
-                        )
                         
-                        # Add bullets
-                        for bullet in obs_data['bullets']:
-                            observation.bullets.append(
-                                arena_pb2.Vec2(x=bullet['x'], y=bullet['y'])
+                        if obs_data:
+                            observation = arena_pb2.Observation(
+                                tick=obs_data['tick'],
+                                self_pos=arena_pb2.Vec2(x=obs_data['self_pos']['x'], y=obs_data['self_pos']['y']),
+                                self_hp=obs_data['self_hp'],
+                                enemy_pos=arena_pb2.Vec2(x=obs_data['enemy_pos']['x'], y=obs_data['enemy_pos']['y']),
+                                enemy_hp=obs_data['enemy_hp'],
+                                has_line_of_sight=obs_data['has_line_of_sight'],
+                                arena_width=obs_data['arena_width'],
+                                arena_height=obs_data['arena_height']
                             )
-                        
-                        # Add walls
-                        observation.walls.extend(obs_data['walls'])
-                        
-                        # Log observation (mỗi 60 observations = 1 giây)
-                        if self.json_logger and observation_count % 60 == 0:
-                            obs_dict = observation_to_dict(observation)
-                            # Thêm context về game state
-                            obs_dict["game_context"] = {
-                                "room_id": connection.room_id,
-                                "observation_count": observation_count,
-                                "connection_duration": asyncio.get_event_loop().time() - connection.connection_time
-                            }
-                            self.json_logger.log_observation_sent(
-                                connection.bot_id, 
-                                connection.player_id, 
-                                obs_dict
-                            )
-                        
-                        await context.write(observation)
+                            
+                            # Add bullets and walls
+                            for bullet in obs_data['bullets']:
+                                observation.bullets.append(arena_pb2.Vec2(x=bullet['x'], y=bullet['y']))
+                            observation.walls.extend(obs_data['walls'])
+                            
+                            await context.write(observation)
+                            
                 else:
-                    # Send waiting state observation
+                    # ⏳ WAITING STATE - Send stable waiting observations
+                    player_count = room_info.get('player_count', 1)
+                    
+                    # Log waiting status periodically (every 5 seconds)
+                    if observation_count % 300 == 0:  # 300 frames = 5 seconds at 60fps
+                        logger.info(f"⏳ {connection.player_id} waiting in {player_room_id} ({player_count}/2 players)")
+                    
+                    # Send stable waiting observation
                     waiting_obs = arena_pb2.Observation(
-                        tick=0,
-                        self_pos=arena_pb2.Vec2(x=400.0, y=300.0),
-                        self_hp=100.0,
-                        enemy_pos=arena_pb2.Vec2(x=0.0, y=0.0),
-                        enemy_hp=0.0,
+                        tick=observation_count,
+                        self_pos=arena_pb2.Vec2(x=400.0, y=300.0),  # Center position
+                        self_hp=100.0,  # Full health
+                        enemy_pos=arena_pb2.Vec2(x=0.0, y=0.0),    # No enemy
+                        enemy_hp=0.0,   # No enemy
                         has_line_of_sight=False,
                         arena_width=800.0,
                         arena_height=600.0
@@ -341,7 +330,7 @@ class ArenaBattleServicer(arena_pb2_grpc.ArenaBattleServiceServicer):
                 
                 observation_count += 1
                 
-                # Control update rate
+                # IMPORTANT: Stable frame rate
                 await asyncio.sleep(1/60)  # 60 FPS
                 
         except Exception as e:

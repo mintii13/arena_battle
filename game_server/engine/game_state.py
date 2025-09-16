@@ -100,9 +100,12 @@ class GameState:
                 Wall(center_x - 15, center_y - 80, 30, 160),   # Vertical center
         ])
     
-    def add_bot(self, player_id: str, name: str, arena_config: dict = None, room_id: str = None) -> int:
-        bot_id = self.next_bot_id
-        self.next_bot_id += 1
+    def add_bot(self, player_id: str, name: str, arena_config: dict = None, room_id: str = None, custom_bot_id: int = None) -> int:
+        if custom_bot_id is not None:
+            bot_id = custom_bot_id
+        else:
+            bot_id = self.next_bot_id
+            self.next_bot_id += 1
         
         # Find valid spawn position
         spawn_x, spawn_y = self._find_spawn_position()

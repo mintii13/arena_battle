@@ -1,0 +1,12 @@
+[
+{
+  "timestamp": "2025-09-16T22:00:53.710982",
+  "timestamp_ms": 1758034853710,
+  "type": "game_event",
+  "event_type": "registration_error",
+  "data": {
+    "player_id": "player001",
+    "error": "'GameState' object has no attribute 'add_bot_with_id'"
+  },
+  "related_bots": []
+}

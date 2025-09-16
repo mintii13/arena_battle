@@ -27,8 +27,9 @@ class Room:
     created_time: float = field(default_factory=time.time)
 
 class RoomManager:
-    """Room-based system replacing matchmaking - FIXED"""
-    
+    """Room-based system replacing matchmaking"""
+    _global_bot_id = 1
+
     def __init__(self, rooms_config_path: str = "arena_battle_game/rooms.json"):
         self.rooms_config_path = rooms_config_path
         self.rooms: Dict[str, Room] = {}
@@ -178,8 +179,8 @@ class RoomManager:
         }
     
     def _generate_bot_id(self, player: Player, room: Room) -> int:
-        """Generate unique bot ID for player in room"""
-        bot_id = abs(hash(f"{player.id}_{room.id}")) % 10000
+        bot_id = RoomManager._global_bot_id
+        RoomManager._global_bot_id += 1
         return bot_id
     
     def leave_room(self, player_id: str) -> bool:
@@ -201,7 +202,8 @@ class RoomManager:
         """Get detailed room information"""
         if room_id not in self.rooms:
             return {'error': f'Room {room_id} not found'}
-        
+        room = self.rooms[room_id]
+        player_count = len(room.players)
         room = self.rooms[room_id]
         return {
             'room_id': room.id,
@@ -214,10 +216,11 @@ class RoomManager:
                 }
                 for p in room.players
             ],
-            'player_count': len(room.players),
+            'player_count': player_count,
             'max_players': room.max_players,
             'arena_config': room.arena_config,
-            'is_active': len(room.players) >= 2
+            'is_active': len(room.players) >= 2,
+            'status': 'active' if player_count >= 2 else 'waiting'
         }
     
     def get_all_rooms(self) -> List[Dict]:

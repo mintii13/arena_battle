@@ -282,17 +282,18 @@ class BotClient:
             pass
     
     async def _process_observation(self, observation, action_queue):
-        """Process observation with smart combat decisions"""
+        """Process observation with IMPROVED waiting handling"""
         try:
             # Check if this is a waiting state (no enemy)
             if observation.enemy_hp == 0 and observation.enemy_pos.x == 0:
                 if not self.match_active:
-                    # Still waiting for players
+                    # Still waiting for players - STABLE WAITING
                     if self.waiting_start_time:
                         wait_time = time.time() - self.waiting_start_time
-                        if wait_time % 10 < 0.1:  # Log every 10 seconds
+                        # Log every 10 seconds instead of continuous spam
+                        if int(wait_time) % 10 == 0 and wait_time > 0:
                             logger.info(f"⏳ {self.bot_name} waiting for opponents... ({wait_time:.0f}s)")
-                    return
+                    return  # ← IMPORTANT: Don't disconnect, just wait
                 else:
                     # Match ended or enemy died
                     self.match_active = False
@@ -307,7 +308,7 @@ class BotClient:
                         self.waiting_start_time = None
                     else:
                         logger.info(f"⚔️ {self.bot_name} joined ongoing combat engagement!")
-            
+         
             # Convert observation to enhanced dict
             obs_dict = {
                 'tick': observation.tick,
