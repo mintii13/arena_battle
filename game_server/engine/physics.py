@@ -196,10 +196,8 @@ class PhysicsEngine:
         for bot in self.game_state.bots.values():
             if bot.state == BotState.DEAD:
                 if current_time - bot.death_time >= self.respawn_delay:
-                    # Respawn at death location (as per game design)
-                    if not self.game_state._is_position_valid(bot.x, bot.y, bot.radius):
-                        # Find nearby valid position
-                        bot.x, bot.y = self.game_state._find_spawn_position()
+                    # Respawn at random location instead of death location
+                    bot.x, bot.y = self.game_state._find_spawn_position()
                     
                     bot.state = BotState.INVULNERABLE
                     bot.hp = bot.max_hp

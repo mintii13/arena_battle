@@ -1,0 +1,2696 @@
+[
+{
+  "timestamp": "2025-09-18T21:51:39.916499",
+  "timestamp_ms": 1758207099916,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:39.933591",
+  "timestamp_ms": 1758207099933,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:39.967592",
+  "timestamp_ms": 1758207099967,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:39.984684",
+  "timestamp_ms": 1758207099984,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:40.000616",
+  "timestamp_ms": 1758207100000,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:40.032677",
+  "timestamp_ms": 1758207100032,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:40.065462",
+  "timestamp_ms": 1758207100065,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:40.082170",
+  "timestamp_ms": 1758207100082,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:40.114322",
+  "timestamp_ms": 1758207100114,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:40.148826",
+  "timestamp_ms": 1758207100148,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:40.165835",
+  "timestamp_ms": 1758207100165,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:40.182272",
+  "timestamp_ms": 1758207100182,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:40.215832",
+  "timestamp_ms": 1758207100215,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:40.249583",
+  "timestamp_ms": 1758207100249,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:40.281916",
+  "timestamp_ms": 1758207100281,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:40.313800",
+  "timestamp_ms": 1758207100313,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:40.330598",
+  "timestamp_ms": 1758207100330,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:40.363828",
+  "timestamp_ms": 1758207100363,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:40.395809",
+  "timestamp_ms": 1758207100395,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:40.412964",
+  "timestamp_ms": 1758207100412,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:40.429173",
+  "timestamp_ms": 1758207100429,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:40.444727",
+  "timestamp_ms": 1758207100444,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:40.461904",
+  "timestamp_ms": 1758207100461,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:40.477784",
+  "timestamp_ms": 1758207100477,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:40.495508",
+  "timestamp_ms": 1758207100495,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:40.527825",
+  "timestamp_ms": 1758207100527,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:40.544673",
+  "timestamp_ms": 1758207100544,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:40.561013",
+  "timestamp_ms": 1758207100561,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:40.594041",
+  "timestamp_ms": 1758207100594,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:40.610409",
+  "timestamp_ms": 1758207100610,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:40.627706",
+  "timestamp_ms": 1758207100627,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:40.643948",
+  "timestamp_ms": 1758207100643,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:40.660029",
+  "timestamp_ms": 1758207100660,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:40.693332",
+  "timestamp_ms": 1758207100693,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:40.710141",
+  "timestamp_ms": 1758207100710,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:40.725882",
+  "timestamp_ms": 1758207100725,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:40.742207",
+  "timestamp_ms": 1758207100742,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:40.774094",
+  "timestamp_ms": 1758207100774,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:40.790755",
+  "timestamp_ms": 1758207100790,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:40.806978",
+  "timestamp_ms": 1758207100806,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:40.822801",
+  "timestamp_ms": 1758207100822,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:40.839455",
+  "timestamp_ms": 1758207100839,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:40.872893",
+  "timestamp_ms": 1758207100872,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:40.888556",
+  "timestamp_ms": 1758207100888,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:40.905774",
+  "timestamp_ms": 1758207100905,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:40.938203",
+  "timestamp_ms": 1758207100938,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:40.953459",
+  "timestamp_ms": 1758207100953,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:40.970588",
+  "timestamp_ms": 1758207100970,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:40.987059",
+  "timestamp_ms": 1758207100987,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:41.019088",
+  "timestamp_ms": 1758207101019,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:41.035485",
+  "timestamp_ms": 1758207101035,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:41.051354",
+  "timestamp_ms": 1758207101051,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:41.068246",
+  "timestamp_ms": 1758207101068,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:41.083410",
+  "timestamp_ms": 1758207101083,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:41.100772",
+  "timestamp_ms": 1758207101100,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:41.117371",
+  "timestamp_ms": 1758207101117,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:41.151661",
+  "timestamp_ms": 1758207101151,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:41.168924",
+  "timestamp_ms": 1758207101168,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:41.185819",
+  "timestamp_ms": 1758207101185,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:41.202105",
+  "timestamp_ms": 1758207101202,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:41.218386",
+  "timestamp_ms": 1758207101218,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:41.235566",
+  "timestamp_ms": 1758207101235,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:41.252295",
+  "timestamp_ms": 1758207101252,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:41.269437",
+  "timestamp_ms": 1758207101269,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:41.285780",
+  "timestamp_ms": 1758207101285,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:41.319925",
+  "timestamp_ms": 1758207101319,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:41.335544",
+  "timestamp_ms": 1758207101335,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:41.353234",
+  "timestamp_ms": 1758207101353,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:41.368783",
+  "timestamp_ms": 1758207101368,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:41.385123",
+  "timestamp_ms": 1758207101385,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:41.417671",
+  "timestamp_ms": 1758207101417,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:41.450766",
+  "timestamp_ms": 1758207101450,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:41.468052",
+  "timestamp_ms": 1758207101468,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:41.485638",
+  "timestamp_ms": 1758207101485,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:41.517941",
+  "timestamp_ms": 1758207101517,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:41.535619",
+  "timestamp_ms": 1758207101535,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:41.552036",
+  "timestamp_ms": 1758207101552,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:41.567475",
+  "timestamp_ms": 1758207101567,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:41.601549",
+  "timestamp_ms": 1758207101601,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:41.617867",
+  "timestamp_ms": 1758207101617,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:41.650553",
+  "timestamp_ms": 1758207101650,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:41.666516",
+  "timestamp_ms": 1758207101666,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:41.683295",
+  "timestamp_ms": 1758207101683,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:41.716886",
+  "timestamp_ms": 1758207101716,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:41.734041",
+  "timestamp_ms": 1758207101734,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:41.750544",
+  "timestamp_ms": 1758207101750,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:41.767553",
+  "timestamp_ms": 1758207101767,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:41.784258",
+  "timestamp_ms": 1758207101784,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:41.817903",
+  "timestamp_ms": 1758207101817,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:41.834681",
+  "timestamp_ms": 1758207101834,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:41.867830",
+  "timestamp_ms": 1758207101867,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:41.901577",
+  "timestamp_ms": 1758207101901,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:41.918907",
+  "timestamp_ms": 1758207101918,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:41.935634",
+  "timestamp_ms": 1758207101935,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:41.951907",
+  "timestamp_ms": 1758207101951,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:41.968488",
+  "timestamp_ms": 1758207101968,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:41.985513",
+  "timestamp_ms": 1758207101985,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:42.002057",
+  "timestamp_ms": 1758207102002,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:42.018528",
+  "timestamp_ms": 1758207102018,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:42.035817",
+  "timestamp_ms": 1758207102035,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:42.067580",
+  "timestamp_ms": 1758207102067,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:42.083687",
+  "timestamp_ms": 1758207102083,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:42.100814",
+  "timestamp_ms": 1758207102100,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:42.117824",
+  "timestamp_ms": 1758207102117,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:42.133853",
+  "timestamp_ms": 1758207102133,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:42.166890",
+  "timestamp_ms": 1758207102166,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:42.200950",
+  "timestamp_ms": 1758207102200,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:42.217534",
+  "timestamp_ms": 1758207102217,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:42.233488",
+  "timestamp_ms": 1758207102233,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:42.266517",
+  "timestamp_ms": 1758207102266,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:42.283465",
+  "timestamp_ms": 1758207102283,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:42.299590",
+  "timestamp_ms": 1758207102299,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:42.316651",
+  "timestamp_ms": 1758207102316,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:42.333852",
+  "timestamp_ms": 1758207102333,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:42.366889",
+  "timestamp_ms": 1758207102366,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:42.400342",
+  "timestamp_ms": 1758207102400,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:42.416652",
+  "timestamp_ms": 1758207102416,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:42.432798",
+  "timestamp_ms": 1758207102432,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:42.465809",
+  "timestamp_ms": 1758207102465,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:42.482286",
+  "timestamp_ms": 1758207102482,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:42.497938",
+  "timestamp_ms": 1758207102497,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:42.514010",
+  "timestamp_ms": 1758207102514,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:42.530697",
+  "timestamp_ms": 1758207102530,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:42.563893",
+  "timestamp_ms": 1758207102563,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:42.580974",
+  "timestamp_ms": 1758207102580,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:42.597613",
+  "timestamp_ms": 1758207102597,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:42.613986",
+  "timestamp_ms": 1758207102613,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:42.646589",
+  "timestamp_ms": 1758207102646,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:42.663867",
+  "timestamp_ms": 1758207102663,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:42.680655",
+  "timestamp_ms": 1758207102680,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:42.713360",
+  "timestamp_ms": 1758207102713,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:42.746649",
+  "timestamp_ms": 1758207102746,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:42.779097",
+  "timestamp_ms": 1758207102779,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:42.795852",
+  "timestamp_ms": 1758207102795,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:42.812762",
+  "timestamp_ms": 1758207102812,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:42.829685",
+  "timestamp_ms": 1758207102829,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:42.862663",
+  "timestamp_ms": 1758207102862,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:42.879265",
+  "timestamp_ms": 1758207102879,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:42.912028",
+  "timestamp_ms": 1758207102912,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:42.944103",
+  "timestamp_ms": 1758207102944,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:42.959747",
+  "timestamp_ms": 1758207102959,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:42.992446",
+  "timestamp_ms": 1758207102992,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:43.009609",
+  "timestamp_ms": 1758207103009,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:43.044115",
+  "timestamp_ms": 1758207103044,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:43.060694",
+  "timestamp_ms": 1758207103060,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:43.094381",
+  "timestamp_ms": 1758207103094,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:43.110691",
+  "timestamp_ms": 1758207103110,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:43.144209",
+  "timestamp_ms": 1758207103144,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:43.160932",
+  "timestamp_ms": 1758207103160,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:43.178179",
+  "timestamp_ms": 1758207103178,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:43.210724",
+  "timestamp_ms": 1758207103210,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:43.244274",
+  "timestamp_ms": 1758207103244,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:43.275831",
+  "timestamp_ms": 1758207103275,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:43.292365",
+  "timestamp_ms": 1758207103292,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:43.309090",
+  "timestamp_ms": 1758207103309,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:43.325047",
+  "timestamp_ms": 1758207103325,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:43.342029",
+  "timestamp_ms": 1758207103342,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:43.358827",
+  "timestamp_ms": 1758207103358,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:43.375689",
+  "timestamp_ms": 1758207103375,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:43.391755",
+  "timestamp_ms": 1758207103391,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:43.408226",
+  "timestamp_ms": 1758207103408,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:43.441850",
+  "timestamp_ms": 1758207103441,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:43.458537",
+  "timestamp_ms": 1758207103458,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:43.475633",
+  "timestamp_ms": 1758207103475,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:43.491910",
+  "timestamp_ms": 1758207103491,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:43.524247",
+  "timestamp_ms": 1758207103524,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:43.540470",
+  "timestamp_ms": 1758207103540,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:43.556572",
+  "timestamp_ms": 1758207103556,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:43.573216",
+  "timestamp_ms": 1758207103573,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:43.588700",
+  "timestamp_ms": 1758207103588,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:43.621453",
+  "timestamp_ms": 1758207103621,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:43.654665",
+  "timestamp_ms": 1758207103654,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:43.670860",
+  "timestamp_ms": 1758207103670,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:43.687871",
+  "timestamp_ms": 1758207103687,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:43.704692",
+  "timestamp_ms": 1758207103704,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:43.721233",
+  "timestamp_ms": 1758207103721,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:43.738066",
+  "timestamp_ms": 1758207103738,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:43.771325",
+  "timestamp_ms": 1758207103771,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:43.788126",
+  "timestamp_ms": 1758207103788,
+  "type": "action_received",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "thrust": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "aim_angle": 3.6147820949554443,
+    "fire": false
+  }
+},
+{
+  "timestamp": "2025-09-18T21:51:43.846357",
+  "timestamp_ms": 1758207103846,
+  "type": "bot_disconnect",
+  "bot_id": 1,
+  "player_id": "player001",
+  "data": {
+    "connection_duration": 1174.9219999999623
+  }
+}

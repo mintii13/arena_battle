@@ -131,17 +131,23 @@ class GameState:
         return bot_id
     
     def _find_spawn_position(self) -> tuple:
-        """Find a valid spawn position away from walls and other bots"""
-        spawn_attempts = [
-            (100, 100), (700, 100), (100, 500), (700, 500),  # Corners
-            (200, 300), (600, 300), (400, 150), (400, 450),  # Mid positions
-        ]
+        """Find a random valid spawn position away from walls and other bots"""
+        import random
         
-        for x, y in spawn_attempts:
-            if self._is_position_valid(x, y, 20):  # 20 pixel clearance
-                return x, y
+        # Create larger pool of valid positions
+        potential_spawns = []
         
-        # Fallback to center if all positions are blocked
+        # Generate grid of potential spawn points
+        for x in range(80, self.width - 80, 40):  # Every 40 pixels
+            for y in range(80, self.height - 80, 40):
+                if self._is_position_valid(x, y, 30):  # 30px clearance
+                    potential_spawns.append((x, y))
+        
+        # Return random valid position
+        if potential_spawns:
+            return random.choice(potential_spawns)
+        
+        # Fallback to center if no valid positions found
         return self.width // 2, self.height // 2
     
     def _is_position_valid(self, x: float, y: float, radius: float) -> bool:
