@@ -369,18 +369,19 @@ class BotClient:
                 
                 # Calculate enhanced reward
                 reward = self._calculate_reward(obs_dict, move_x, move_y, enhanced_fire)
+                self.episode_reward += reward
                 
                 # Check if episode ended (bot died)
                 done = obs_dict['self_hp'] <= 0
                 
                 if done:
-                    self.deaths += 1
+                    # Chỉ log, không tăng death counter ở đây
                     logger.info(f"💀 {self.bot_name} eliminated! Episode reward: {self.episode_reward:.2f}")
                     logger.info(f"📊 Combat stats: {self.kills}K/{self.deaths}D (K/D: {self.kills/max(self.deaths,1):.2f})")
                     logger.info(f"🎯 Firing accuracy: {self.shots_hit}/{self.shots_fired} ({self.shots_hit/max(self.shots_fired,1)*100:.1f}%)")
                     
-                    # Auto-save on death if significant progress
-                    if self.episode_count % 10 == 0:  # Every 10 deaths
+                    # Auto-save logic
+                    if self.episode_count % 10 == 0:
                         await self._save_model("auto_death")
                     
                     self._reset_episode_stats()
@@ -638,8 +639,17 @@ class BotClient:
         return should_fire_enhanced
     
     def _calculate_reward(self, obs_dict, move_x, move_y, fired):
-        """Enhanced reward calculation with tactical bonuses"""
+        """Calculate reward with KILL STATS tracking"""
+        
         reward = self.reward_calculator.calculate_reward(obs_dict)
+        
+        if reward > 0:
+            self.kills += 1
+            logger.info(f"🎯 {self.bot_name} KILL CONFIRMED! Total kills: {self.kills}")
+        elif reward < 0:
+            self.deaths += 1
+            logger.info(f"💀 {self.bot_name} DEATH CONFIRMED! Total deaths: {self.deaths}")
+        
         return reward
     
     def _reset_episode_stats(self):
