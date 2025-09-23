@@ -9,6 +9,7 @@ import math
 import torch
 import numpy as np
 from pathlib import Path
+from ai_bot.rewards.arena_reward import ArenaRewardCalculator
 
 # Add project root to path
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
@@ -74,6 +75,8 @@ class BotClient:
         
         # Connection state
         self.waiting_start_time = None
+
+        self.reward_calculator = ArenaRewardCalculator()
         
         logger.info(f"🤖 Smart Combat Bot initialized: {self.bot_name}")
         logger.info(f"💾 Auto-save enabled: {self.model_save_dir}")
@@ -636,73 +639,7 @@ class BotClient:
     
     def _calculate_reward(self, obs_dict, move_x, move_y, fired):
         """Enhanced reward calculation with tactical bonuses"""
-        reward = 0.0
-        
-        # Core combat rewards
-        current_hp = obs_dict['self_hp']
-        if current_hp <= 0 and self.last_hp > 0:
-            reward = -100.0  # Death penalty
-            logger.info(f"💀 {self.bot_name} death penalty: {reward}")
-        
-        enemy_hp = obs_dict['enemy_hp']
-        if enemy_hp <= 0 and hasattr(self, 'last_enemy_hp') and self.last_enemy_hp > 0:
-            reward = +100.0  # Kill reward
-            self.kills += 1
-            # Bonus accuracy tracking
-            if self.shots_fired > 0:
-                self.shots_hit += 1
-            logger.info(f"🎯 {self.bot_name} elimination! Reward: {reward} (Total kills: {self.kills})")
-        
-        # Enhanced movement rewards
-        current_pos = (obs_dict['self_pos']['x'], obs_dict['self_pos']['y'])
-        
-        if self.last_position is not None:
-            distance_moved = math.sqrt(
-                (current_pos[0] - self.last_position[0])**2 + 
-                (current_pos[1] - self.last_position[1])**2
-            )
-            
-            # Movement quality assessment
-            if distance_moved > 3.0:  # Good tactical movement
-                reward += self.smart_move_bonus
-            elif distance_moved > 1.0:  # Basic movement
-                reward += self.movement_bonus
-            elif distance_moved < 0.5:  # Camping penalty
-                reward += self.stillness_penalty
-        
-        # Wall collision penalty
-        arena_width = obs_dict['arena_width']
-        arena_height = obs_dict['arena_height']
-        margin = 30
-        
-        if (current_pos[0] < margin or current_pos[0] > arena_width - margin or
-            current_pos[1] < margin or current_pos[1] > arena_height - margin):
-            reward += self.wall_hit_penalty
-            self.wall_collision_count += 1
-        
-        # Smart firing rewards
-        if fired:
-            if obs_dict['has_line_of_sight']:
-                reward += 0.005  # Small bonus for smart firing
-            else:
-                reward -= 0.01  # Penalty for wasting ammo
-        
-        # Tactical position rewards
-        enemy_pos = obs_dict['enemy_pos']
-        if enemy_pos['x'] > 0:  # Enemy exists
-            dx = enemy_pos['x'] - current_pos[0]
-            dy = enemy_pos['y'] - current_pos[1]
-            distance = math.sqrt(dx*dx + dy*dy)
-            
-            # Optimal combat distance reward
-            if 100 < distance < 300:  # Good combat range
-                reward += 0.002
-            
-            # Line of sight bonus
-            if obs_dict['has_line_of_sight']:
-                reward += 0.001
-        
-        self.last_position = current_pos
+        reward = self.reward_calculator.calculate_reward(obs_dict)
         return reward
     
     def _reset_episode_stats(self):
@@ -716,3 +653,4 @@ class BotClient:
         self.wall_collision_count = 0
         self.stuck_counter = 0
         self.target_locked = False
+        self.reward_calculator.reset_state()

@@ -174,21 +174,19 @@ class PhysicsEngine:
             self._kill_bot(bot, attacker_id)
     
     def _kill_bot(self, bot: Bot, killer_id: int):
-        """Handle bot death"""
+        """Handle bot death - NO REWARD CALCULATION"""
         bot.state = BotState.DEAD
         bot.death_time = time.time()
         bot.hp = 0
         bot.deaths += 1
         
-        # Award kill
+        # Award kill stats
         if killer_id in self.game_state.bots:
             self.game_state.bots[killer_id].kills += 1
             self.game_state.total_kills += 1
         
         self.game_state.total_deaths += 1
         
-        logger.info(f"💀 Bot {bot.name} killed by Bot {killer_id}")
-    
     def _handle_respawns(self):
         """Handle bot respawning"""
         current_time = time.time()
