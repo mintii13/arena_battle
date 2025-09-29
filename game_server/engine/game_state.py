@@ -5,6 +5,8 @@ import math
 from typing import Dict, List
 from dataclasses import dataclass
 from enum import Enum
+import logging
+logger = logging.getLogger(__name__)
 
 class BotState(Enum):
     ALIVE = "alive"
@@ -31,6 +33,32 @@ class Bot:
     invulnerable_until: float = 0.0
     radius: float = 15.0
     room_id: str = None
+
+@dataclass
+class DummyBot(Bot):
+    """Bot di chuyển ngẫu nhiên, không bắn"""
+    is_dummy: bool = True
+    move_change_interval: float = 0.5  # Đổi hướng mỗi nửa giây
+    last_direction_change: float = 0.0
+    current_direction: tuple = (0.0, 0.0)
+    
+    def update_random_movement(self):
+        """Cập nhật hướng di chuyển ngẫu nhiên"""
+        import random
+        current_time = time.time()
+        
+        if current_time - self.last_direction_change >= self.move_change_interval:
+            # Random direction
+            angle = random.uniform(0, 2 * math.pi)
+            magnitude = random.uniform(0.5, 1.0)
+            
+            self.current_direction = (
+                math.cos(angle) * magnitude,
+                math.sin(angle) * magnitude
+            )
+            self.last_direction_change = current_time
+        
+        return self.current_direction
 
 @dataclass
 class Bullet:
@@ -127,6 +155,35 @@ class GameState:
         if arena_config and len(self.bots) == 0:
             self._create_arena_walls(arena_config)
             self.room_id = room_id  # Track room for this state
+        
+        return bot_id
+    
+    def add_dummy_bot(self, room_id: str, arena_config: dict = None) -> int:
+        """Thêm dummy bot (di chuyển ngẫu nhiên, không bắn)"""
+        # Use negative IDs for dummy bots to avoid conflict with AI bots
+        # AI bots use positive IDs (1, 2, 3, ...)
+        # Dummy bots use negative IDs (-1, -2, -3, ...)
+        
+        if not hasattr(self, 'next_dummy_id'):
+            self.next_dummy_id = -1
+        
+        bot_id = self.next_dummy_id
+        self.next_dummy_id -= 1  # Decrease for next dummy bot
+        
+        # Find valid spawn position
+        spawn_x, spawn_y = self._find_spawn_position()
+        
+        dummy_bot = DummyBot(
+            id=bot_id,
+            player_id=f"dummy_{abs(bot_id)}",
+            name=f"Dummy#{abs(bot_id)}",
+            x=spawn_x,
+            y=spawn_y,
+            room_id=room_id
+        )
+        
+        self.bots[bot_id] = dummy_bot
+        logger.info(f"🤖 Spawned dummy bot #{abs(bot_id)} (ID: {bot_id}) at ({spawn_x:.0f}, {spawn_y:.0f})")
         
         return bot_id
     

@@ -26,6 +26,11 @@ class Room:
     players: List[Player] = field(default_factory=list)
     created_time: float = field(default_factory=time.time)
 
+    # for PVE mode
+    is_pve_mode: bool = False
+    initial_dummy_count: int = 0
+    dummy_bot_ids: List[int] = field(default_factory=list)
+
 class RoomManager:
     """Room-based system replacing matchmaking"""
     _global_bot_id = 1
@@ -65,7 +70,9 @@ class RoomManager:
                     id=room_id,
                     password=room_config['password'],
                     max_players=room_config['max_players'],
-                    arena_config=room_config['arena']
+                    arena_config=room_config['arena'],
+                    is_pve_mode=room_config.get('pve_mode', False),
+                    initial_dummy_count=room_config.get('initial_dummy_count', 0)
                 )
                 self.rooms[room_id] = room
                 
@@ -178,6 +185,41 @@ class RoomManager:
             'arena_config': room.arena_config 
         }
     
+    def spawn_initial_dummy_bots(self, room_id: str, game_state) -> List[int]:
+        """Spawn dummy bots ban đầu cho PvE room"""
+        if room_id not in self.rooms:
+            return []
+        
+        room = self.rooms[room_id]
+        if not room.is_pve_mode or room.initial_dummy_count <= 0:
+            return []
+        
+        spawned_ids = []
+        for _ in range(room.initial_dummy_count):
+            bot_id = game_state.add_dummy_bot(room_id, room.arena_config)
+            room.dummy_bot_ids.append(bot_id)
+            spawned_ids.append(bot_id)
+        
+        logger.info(f"🤖 Spawned {len(spawned_ids)} dummy bots in room {room_id}")
+        logger.info(f"🔍 Room.dummy_bot_ids: {room.dummy_bot_ids}")  # ⭐ THÊM DEBUG
+        
+        return spawned_ids
+    
+    def respawn_dummy_bots(self, room_id: str, game_state, count: int = 2):
+        """Spawn thêm dummy bots (khi 1 con chết spawn 2 con)"""
+        if room_id not in self.rooms:
+            return
+        
+        room = self.rooms[room_id]
+        if not room.is_pve_mode:
+            return
+        
+        for _ in range(count):
+            bot_id = game_state.add_dummy_bot(room_id, room.arena_config)
+            room.dummy_bot_ids.append(bot_id)
+        
+        logger.info(f"🤖 Respawned {count} dummy bots in room {room_id}")
+    
     def _generate_bot_id(self, player: Player, room: Room) -> int:
         bot_id = RoomManager._global_bot_id
         RoomManager._global_bot_id += 1
@@ -202,9 +244,18 @@ class RoomManager:
         """Get detailed room information"""
         if room_id not in self.rooms:
             return {'error': f'Room {room_id} not found'}
+        
         room = self.rooms[room_id]
         player_count = len(room.players)
-        room = self.rooms[room_id]
+        
+        # ⭐ FIX: Different is_active logic for PvE vs PvP rooms
+        if room.is_pve_mode:
+            # PvE room: active if has >= 1 player AND dummy bots spawned
+            is_active = player_count >= 1 and len(room.dummy_bot_ids) > 0
+        else:
+            # PvP room: active if has >= 2 players
+            is_active = player_count >= 2
+        
         return {
             'room_id': room.id,
             'players': [
@@ -219,8 +270,10 @@ class RoomManager:
             'player_count': player_count,
             'max_players': room.max_players,
             'arena_config': room.arena_config,
-            'is_active': len(room.players) >= 2,
-            'status': 'active' if player_count >= 2 else 'waiting'
+            'is_active': is_active,  # ⭐ FIXED logic
+            'status': 'active' if is_active else 'waiting',
+            'is_pve_mode': room.is_pve_mode,  # ⭐ ADD field
+            'dummy_count': len(room.dummy_bot_ids)  # ⭐ ADD field
         }
     
     def get_all_rooms(self) -> List[Dict]:

@@ -4,7 +4,7 @@ import math
 import time
 import logging
 from typing import List, Tuple
-from .game_state import Bot, Bullet, BotState, GameState
+from .game_state import Bot, Bullet, BotState, GameState, DummyBot
 
 logger = logging.getLogger(__name__)
 
@@ -49,6 +49,11 @@ class PhysicsEngine:
         for bot in self.game_state.bots.values():
             if bot.state not in [BotState.ALIVE, BotState.INVULNERABLE]:
                 continue
+
+            if isinstance(bot, DummyBot):
+                thrust_x, thrust_y = bot.update_random_movement()
+                bot.vel_x += thrust_x * self.bot_acceleration * dt
+                bot.vel_y += thrust_y * self.bot_acceleration * dt
             
             # Apply friction
             bot.vel_x *= self.friction
@@ -186,6 +191,18 @@ class PhysicsEngine:
             self.game_state.total_kills += 1
         
         self.game_state.total_deaths += 1
+
+        # Handle dummy bot death
+        if isinstance(bot, DummyBot) and bot.room_id:
+            logger.info(f"🤖 Dummy bot #{bot.id} killed, will respawn 2 more")
+            # Set flag để server biết cần spawn thêm
+            if not hasattr(self.game_state, 'pending_dummy_respawns'):
+                self.game_state.pending_dummy_respawns = {}
+            
+            room_id = bot.room_id
+            if room_id not in self.game_state.pending_dummy_respawns:
+                self.game_state.pending_dummy_respawns[room_id] = 0
+            self.game_state.pending_dummy_respawns[room_id] += 1
         
     def _handle_respawns(self):
         """Handle bot respawning"""
@@ -208,11 +225,22 @@ class PhysicsEngine:
             elif bot.state == BotState.INVULNERABLE:
                 if current_time >= bot.invulnerable_until:
                     bot.state = BotState.ALIVE
+
+        if hasattr(self.game_state, 'pending_dummy_respawns'):
+            for room_id, count in list(self.game_state.pending_dummy_respawns.items()):
+                if count > 0:
+                    for _ in range(count):
+                        self.game_state.add_dummy_bot(room_id)
+                    logger.info(f"🤖 Respawned {count} dummy bots in room {room_id}")
+            self.game_state.pending_dummy_respawns.clear()
     
     def apply_bot_action(self, bot_id: int, action: dict):
         """Apply action to bot"""
         bot = self.game_state.bots.get(bot_id)
         if not bot or bot.state not in [BotState.ALIVE, BotState.INVULNERABLE]:
+            return
+        
+        if isinstance(bot, DummyBot):
             return
         
         # Apply thrust
@@ -240,6 +268,9 @@ class PhysicsEngine:
     
     def _try_shoot(self, bot: Bot):
         """Try to make bot shoot"""
+        if isinstance(bot, DummyBot):
+            return
+        
         current_time = time.time()
         
         if current_time - bot.last_shot_time >= self.shot_cooldown:
