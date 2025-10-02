@@ -51,7 +51,7 @@ class PhysicsEngine:
                 continue
 
             if isinstance(bot, DummyBot):
-                thrust_x, thrust_y = bot.update_random_movement()
+                thrust_x, thrust_y = bot.update_random_movement(self.game_state)
                 bot.vel_x += thrust_x * self.bot_acceleration * dt
                 bot.vel_y += thrust_y * self.bot_acceleration * dt
             
@@ -67,12 +67,16 @@ class PhysicsEngine:
             if self.game_state._is_position_valid(new_x, bot.y, bot.radius):
                 bot.x = new_x
             else:
-                bot.vel_x = 0
+                bot.vel_x = -bot.vel_x * 0.5
+                if isinstance(bot, DummyBot):
+                    bot.stuck_counter = getattr(bot, 'stuck_counter', 0) + 5
             
             if self.game_state._is_position_valid(bot.x, new_y, bot.radius):
                 bot.y = new_y
             else:
-                bot.vel_y = 0
+                bot.vel_y = -bot.vel_y * 0.5
+                if isinstance(bot, DummyBot):
+                    bot.stuck_counter = getattr(bot, 'stuck_counter', 0) + 5
     
     def _update_bullets(self, dt: float):
         """Update bullet physics"""
