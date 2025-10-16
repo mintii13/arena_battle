@@ -347,7 +347,7 @@ class GameRenderer:
         controls = [
             "1,2,3,4 - Speed",
             "Click - Select Bot", 
-            "D - Debug Mode",
+            "F3 - Debug Mode",
             "R - Cycle Rooms",
             "S - Save Models",
             "ESC - Quit"
@@ -671,7 +671,7 @@ class GameRenderer:
             self._set_speed(2, game_engine)
         elif key == pygame.K_4:
             self._set_speed(3, game_engine)
-        elif key == pygame.K_d:
+        elif key == pygame.K_F3:
             # FIXED: Debug toggle now works properly
             self.show_debug = not self.show_debug
             debug_status = "ON" if self.show_debug else "OFF"

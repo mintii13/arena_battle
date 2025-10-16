@@ -16,9 +16,9 @@ class PhysicsEngine:
         
         # Physics constants
         self.bullet_speed = 400.0  # pixels per second
-        self.max_bot_speed = 200.0
-        self.bot_acceleration = 800.0
-        self.friction = 0.85
+        self.max_bot_speed = 320.0
+        self.bot_acceleration = 1200.0
+        self.friction = 0.88
         self.shot_cooldown = 0.3  # seconds
         self.respawn_delay = 1.0  # seconds
         self.invulnerability_time = 1.0  # seconds

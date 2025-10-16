@@ -1,0 +1,25 @@
+[
+{
+  "timestamp": "2025-10-16T13:50:03.924022",
+  "timestamp_ms": 1760597403924,
+  "type": "bot_registration",
+  "player_id": "player001",
+  "data": {
+    "bot_name": "player001",
+    "bot_id": 0,
+    "success": false,
+    "message": "❌ Room ID 'room_001' does not exist. Available: ['room_default']"
+  }
+},
+{
+  "timestamp": "2025-10-16T13:50:58.952755",
+  "timestamp_ms": 1760597458952,
+  "type": "bot_registration",
+  "player_id": "player001",
+  "data": {
+    "bot_name": "player001",
+    "bot_id": 0,
+    "success": false,
+    "message": "❌ Room ID 'room_001' does not exist. Available: ['room_default']"
+  }
+}

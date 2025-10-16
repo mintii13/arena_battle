@@ -9,9 +9,9 @@ from pathlib import Path
 # Add project root to path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from ai_bot.models.network import PPONetwork, ObservationProcessor
-from ai_bot.training.ppo import PPOTrainer
-from ai_bot.training.buffer import ExperienceBuffer
+from ai_bot.models.hmoe_model import HMoeModel
+# (PPO disabled) from ai_bot.training.ppo import PPOTrainer
+# (PPO disabled) from ai_bot.training.buffer import ExperienceBuffer
 from ai_bot.client.bot_client import BotClient
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -159,13 +159,20 @@ async def main():
     logger.info("🤖 ==========================================")
     
     # Create AI components
-    network = PPONetwork()
-    trainer = PPOTrainer(network)
-    obs_processor = ObservationProcessor()
-    buffer = ExperienceBuffer()
+    model = HMoeModel()
+    # PPO disabled: trainer = PPOTrainer(network)
+    obs_processor = None  # HMoe processes dicts directly
+    buffer = None
     
     # Create enhanced bot client
-    bot_client = BotClient(args.player_id, args.bot_name, trainer, obs_processor, args.room_id, args.room_password)
+    bot_client = BotClient(
+    player_id=args.player_id,
+    bot_name=args.bot_name,
+    trainer=model,          # HMoeModel
+    obs_processor=None,     # KHÔNG truyền model vào đây
+    room_id=args.room_id,
+    room_password=args.room_password
+    )
     
     # Set auto-save interval
     bot_client.save_interval = args.save_interval

@@ -29,7 +29,7 @@ class BotClient:
         self.bot_name = bot_name
         self.room_id = room_id
         self.room_password = room_password
-        self.trainer = trainer
+        self.model = trainer
         self.obs_processor = obs_processor
         
         self.connected = False
@@ -158,8 +158,10 @@ class BotClient:
             
             # Prepare save data
             save_data = {
-                'network_state_dict': self.trainer.network.state_dict(),
-                'optimizer_state_dict': self.trainer.optimizer.state_dict(),
+                # HMoe has no state dict
+                #'network_state_dict': self.model.state_dict() if hasattr(self.model, 'state_dict') else None,
+                # HMoe has no optimizer
+                #'optimizer_state_dict': None,
                 'player_id': self.player_id,
                 'bot_name': self.bot_name,
                 'episode_count': self.episode_count,
@@ -213,8 +215,8 @@ class BotClient:
             checkpoint = torch.load(model_path, map_location='cpu')
             
             # Load network state
-            self.trainer.network.load_state_dict(checkpoint['network_state_dict'])
-            self.trainer.optimizer.load_state_dict(checkpoint['optimizer_state_dict'])
+            # HMoe: skip network load
+            # HMoe: skip optimizer load
             
             # Load stats
             self.episode_count = checkpoint.get('episode_count', 0)
@@ -326,14 +328,12 @@ class BotClient:
             # Only generate AI actions if match is active
             if self.match_active:
                 # Process observation for enhanced AI
-                processed_obs = self.obs_processor.process(obs_dict)
-                
-                # Get action from enhanced AI
-                movement, aim, fire_action, value = self.trainer.network.get_action(processed_obs)
-                
-                # === ENHANCED WALL AVOIDANCE ===
-                move_x = float(movement[0, 0].item())
-                move_y = float(movement[0, 1].item())
+                processed_obs = obs_dict  # HMoe nhận dict trực tiếp
+                hm = self.model.act(obs_dict)
+                move_x = float(hm.get('move_x', 0.0))
+                move_y = float(hm.get('move_y', 0.0))
+                aim_angle = float(hm.get('aim_angle', 0.0))
+                should_fire = bool(hm.get('fire', False))
                 
                 # Advanced wall collision detection and avoidance
                 enhanced_movement = self._enhance_wall_avoidance(
@@ -342,11 +342,11 @@ class BotClient:
                 move_x, move_y = enhanced_movement
                 
                 # === ENHANCED SMART AIMING ===
-                aim_angle = float(aim[0, 0].item())
+                aim_angle = float(aim_angle)
                 enhanced_aim = self._enhance_smart_aiming(aim_angle, obs_dict)
                 
                 # === ENHANCED SMART FIRING ===
-                should_fire = bool(fire_action[0].item())
+                should_fire = bool(should_fire)
                 enhanced_fire = self._enhance_smart_firing(should_fire, obs_dict, enhanced_aim)
                 
                 # Track firing statistics
@@ -386,7 +386,7 @@ class BotClient:
                     self.last_enemy_hp = obs_dict['enemy_hp']
                 
                 self.episode_reward += reward
-                self.last_obs = processed_obs
+                self.last_obs = obs_dict
                 
                 # Send enhanced action to game
                 await action_queue.put(action)
