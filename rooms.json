@@ -58,5 +58,23 @@
                 }
             ]
         }
+    },
+    "room_pve": {
+        "password": "pve123",
+        "max_players": 1,
+        "arena": {
+            "width": 800,
+            "height": 600,
+            "obstacles": [
+                {
+                    "x": 300,
+                    "y": 250,
+                    "width": 200,
+                    "height": 100
+                }
+            ]
+        },
+        "pve_mode": true,
+        "initial_dummy_count": 1
     }
 }

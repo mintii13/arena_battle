@@ -1,0 +1,27 @@
+[
+{
+  "timestamp": "2025-09-29T22:59:58.794363",
+  "timestamp_ms": 1759161598794,
+  "type": "bot_registration",
+  "player_id": "player002",
+  "data": {
+    "bot_name": "player002",
+    "bot_id": 1,
+    "success": true,
+    "message": "✅ Joined room room_pve (1/1 players) - ⏳ Waiting for more players..."
+  }
+},
+{
+  "timestamp": "2025-09-29T22:59:58.794363",
+  "timestamp_ms": 1759161598794,
+  "type": "match_event",
+  "match_id": "room_pve",
+  "event_type": "player_assigned",
+  "data": {
+    "player_id": "player002",
+    "bot_id": 1,
+    "bot_name": "player002",
+    "players_in_room": 1,
+    "room_id": "room_pve"
+  }
+}

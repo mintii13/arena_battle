@@ -5,6 +5,8 @@ import math
 from typing import Dict, List
 from dataclasses import dataclass
 from enum import Enum
+import logging
+logger = logging.getLogger(__name__)
 
 class BotState(Enum):
     ALIVE = "alive"
@@ -31,6 +33,98 @@ class Bot:
     invulnerable_until: float = 0.0
     radius: float = 15.0
     room_id: str = None
+
+@dataclass
+class DummyBot(Bot):
+    """Bot di chuyển ngẫu nhiên, không bắn"""
+    is_dummy: bool = True
+    move_change_interval: float = 0.5  # Đổi hướng mỗi nửa giây
+    last_direction_change: float = 0.0
+    current_direction: tuple = (0.0, 0.0)
+    
+    def update_random_movement(self, game_state):
+        """Cập nhật hướng di chuyển ngẫu nhiên với wall avoidance mạnh hơn"""
+        import random
+        current_time = time.time()
+        
+        # Initialize attributes if not exist
+        if not hasattr(self, 'last_pos'):
+            self.last_pos = (self.x, self.y)
+            self.stuck_counter = 0
+        
+        # Check if stuck
+        dist_moved = math.sqrt((self.x - self.last_pos[0])**2 + (self.y - self.last_pos[1])**2)
+        if dist_moved < 1.0:  # Tăng ngưỡng từ 0.5 lên 1.0
+            self.stuck_counter = getattr(self, 'stuck_counter', 0) + 1
+        else:
+            self.stuck_counter = 0
+        
+        self.last_pos = (self.x, self.y)
+        
+        # Force change direction if stuck (giảm ngưỡng từ 10 xuống 5)
+        force_change = self.stuck_counter > 5
+        
+        if force_change or (current_time - self.last_direction_change >= self.move_change_interval):
+            # Wall avoidance - TĂNG CƯỜNG
+            arena_w = game_state.width
+            arena_h = game_state.height
+            
+            left_dist = self.x
+            right_dist = arena_w - self.x
+            top_dist = self.y
+            bottom_dist = arena_h - self.y
+            
+            danger_zone = 120  # Tăng từ 80 lên 120 (phát hiện tường sớm hơn)
+            critical_zone = 50  # Vùng cực kỳ nguy hiểm
+            
+            avoid_x = 0.0
+            avoid_y = 0.0
+            
+            # Left wall
+            if left_dist < danger_zone:
+                force = (danger_zone - left_dist) / danger_zone
+                if left_dist < critical_zone:
+                    force *= 3.0  # Tăng lực tránh gấp 3 nếu quá gần
+                avoid_x += force
+            
+            # Right wall
+            if right_dist < danger_zone:
+                force = (danger_zone - right_dist) / danger_zone
+                if right_dist < critical_zone:
+                    force *= 3.0
+                avoid_x -= force
+            
+            # Top wall
+            if top_dist < danger_zone:
+                force = (danger_zone - top_dist) / danger_zone
+                if top_dist < critical_zone:
+                    force *= 3.0
+                avoid_y += force
+            
+            # Bottom wall
+            if bottom_dist < danger_zone:
+                force = (danger_zone - bottom_dist) / danger_zone
+                if bottom_dist < critical_zone:
+                    force *= 3.0
+                avoid_y -= force
+            
+            # Ưu tiên tránh tường (giảm ngưỡng từ 0.3 xuống 0.2)
+            if abs(avoid_x) > 0.2 or abs(avoid_y) > 0.2:
+                magnitude = 1.0  # Tăng từ 0.9 lên 1.0 (tốc độ tối đa)
+                self.current_direction = (avoid_x * magnitude, avoid_y * magnitude)
+                self.stuck_counter = 0
+            else:
+                # Random movement (xa tường)
+                angle = random.uniform(0, 2 * math.pi)
+                magnitude = random.uniform(0.7, 1.0)  # Tăng tốc độ tối thiểu
+                self.current_direction = (
+                    math.cos(angle) * magnitude,
+                    math.sin(angle) * magnitude
+                )
+            
+            self.last_direction_change = current_time
+        
+        return self.current_direction
 
 @dataclass
 class Bullet:
@@ -127,6 +221,35 @@ class GameState:
         if arena_config and len(self.bots) == 0:
             self._create_arena_walls(arena_config)
             self.room_id = room_id  # Track room for this state
+        
+        return bot_id
+    
+    def add_dummy_bot(self, room_id: str, arena_config: dict = None) -> int:
+        """Thêm dummy bot (di chuyển ngẫu nhiên, không bắn)"""
+        # Use negative IDs for dummy bots to avoid conflict with AI bots
+        # AI bots use positive IDs (1, 2, 3, ...)
+        # Dummy bots use negative IDs (-1, -2, -3, ...)
+        
+        if not hasattr(self, 'next_dummy_id'):
+            self.next_dummy_id = -1
+        
+        bot_id = self.next_dummy_id
+        self.next_dummy_id -= 1  # Decrease for next dummy bot
+        
+        # Find valid spawn position
+        spawn_x, spawn_y = self._find_spawn_position()
+        
+        dummy_bot = DummyBot(
+            id=bot_id,
+            player_id=f"dummy_{abs(bot_id)}",
+            name=f"Dummy#{abs(bot_id)}",
+            x=spawn_x,
+            y=spawn_y,
+            room_id=room_id
+        )
+        
+        self.bots[bot_id] = dummy_bot
+        logger.info(f"🤖 Spawned dummy bot #{abs(bot_id)} (ID: {bot_id}) at ({spawn_x:.0f}, {spawn_y:.0f})")
         
         return bot_id
     

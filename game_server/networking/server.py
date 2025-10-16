@@ -20,6 +20,7 @@ except ImportError as e:
     sys.exit(1)
 
 from .room_manager import RoomManager
+from game_server.engine.game_state import DummyBot
 # Import JSON logger
 from ..logging.json_logger import ServerJSONLogger, observation_to_dict, action_to_dict
 
@@ -91,9 +92,34 @@ class ArenaBattleServicer(arena_pb2_grpc.ArenaBattleServiceServicer):
                 )
             
             # Create bot in game engine using RoomManager's bot ID
+            # Get or create room state
             room_state = self.game_engine.get_or_create_room_state(room_id, room_result['arena_config'])
-            bot_id = room_result['bot_id']  # Use the ID from RoomManager instead
+            
+            # ⭐ Debug: Log before adding bot
+            logger.info(f"🔍 DEBUG: About to add bot {player_id} with bot_id={room_result['bot_id']}")
+            logger.info(f"🔍 DEBUG: Room state before add: {len(room_state.bots)} bots")
+            
+            # ⭐ FIX: Always add AI bot FIRST
+            bot_id = room_result['bot_id']
             room_state.add_bot(player_id, actual_bot_name, room_result['arena_config'], room_id, bot_id)
+            
+            logger.info(f"🔍 DEBUG: Room state after add AI bot: {len(room_state.bots)} bots")
+            logger.info(f"🔍 DEBUG: Bot IDs in room: {list(room_state.bots.keys())}")
+            
+            # ⭐ Then spawn dummy bots if PvE room
+            room_info = self.room_manager.get_room_info(room_id)
+            if room_info.get('player_count', 0) == 1:  # First player in room
+                room = self.room_manager.rooms.get(room_id)
+                if room and room.is_pve_mode:
+                    logger.info(f"🎯 PvE room detected - spawning {room.initial_dummy_count} dummy bots")
+                    self.room_manager.spawn_initial_dummy_bots(room_id, room_state)
+                    logger.info(f"🔍 DEBUG: After dummy spawn: {len(room_state.bots)} bots")
+            
+            logger.info(f"🔍 Final bot count in room {room_id}: {len(room_state.bots)}")
+            logger.info(f"🔍 Final bot details:")
+            for bid, bot in room_state.bots.items():
+                bot_type = "DUMMY" if isinstance(bot, DummyBot) else "AI"
+                logger.info(f"   Bot {bid}: {bot.name} ({bot_type})")
             players_count = room_result['players_in_room']
             max_players = room_result.get('max_players', 4)  # fallback to 4
             
@@ -166,8 +192,19 @@ class ArenaBattleServicer(arena_pb2_grpc.ArenaBattleServiceServicer):
                 logger.error("⚠️ No available bot for PlayGame connection")
                 return
             
+            # ⭐ FIX: Dummy bots don't need gRPC connection
+            if player_id.startswith("dummy_"):
+                logger.debug(f"🤖 Dummy bot {bot_id} ({player_id}) - controlled by server")
+                return
+            
             # Get room info
             player_room_id = self.room_manager.player_to_room.get(player_id, "")
+            
+            # ⭐ FIX: Skip room check for dummy bots
+            if player_id.startswith("dummy_"):
+                logger.debug(f"🤖 Dummy bot {player_id} - skip room tracking")
+                return  # Dummy bots don't need PlayGame connection
+            
             room_info = self.room_manager.get_room_info(player_room_id)
             if 'error' in room_info:
                 logger.error(f"⚠️ No room found for player {player_id}")
@@ -243,8 +280,14 @@ class ArenaBattleServicer(arena_pb2_grpc.ArenaBattleServiceServicer):
                 return
 
             player_room_id = self.room_manager.player_to_room.get(connection.player_id, "")
+            
+            # FIX: Handle case where room not found
+            if not player_room_id:
+                logger.warning(f"⚠️ Bot {bot_id} ({player_id}) has no room assignment")
+                return  # ✅ SỬA THÀNH return
+            
             room_info = self.room_manager.get_room_info(player_room_id)
-
+            
             # Process action for the correct room
             action = {
                 'thrust': {
