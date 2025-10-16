@@ -1,0 +1,13 @@
+[
+{
+  "timestamp": "2025-10-16T01:25:17.546191",
+  "timestamp_ms": 1760552717546,
+  "type": "bot_registration",
+  "player_id": "player001",
+  "data": {
+    "bot_name": "player001",
+    "bot_id": 0,
+    "success": false,
+    "message": "❌ Room ID 'room_001' does not exist. Available: ['room_default']"
+  }
+}
