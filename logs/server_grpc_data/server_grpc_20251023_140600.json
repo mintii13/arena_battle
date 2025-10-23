@@ -1,0 +1,24 @@
+[
+{
+  "timestamp": "2025-10-23T14:07:33.639844",
+  "timestamp_ms": 1761203253639,
+  "type": "game_event",
+  "event_type": "registration_error",
+  "data": {
+    "player_id": "BOT1",
+    "error": "name 'bot_id' is not defined"
+  },
+  "related_bots": []
+},
+{
+  "timestamp": "2025-10-23T14:07:54.480874",
+  "timestamp_ms": 1761203274480,
+  "type": "bot_registration",
+  "player_id": "BOT1",
+  "data": {
+    "bot_name": "BOT1",
+    "bot_id": 0,
+    "success": false,
+    "message": "Player BOT1 already in room room_pve"
+  }
+}

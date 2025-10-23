@@ -11,6 +11,10 @@
 
 # python -m ai_bot.main_player --player_id PLAYER --room room_001 --password abc123
 
+#PVE
+# python -m ai_bot.main_player --player_id PLAYER --room room_pve --password pve123
+# python -m ai_bot.main --player-id BOT1 --room-id room_pve --room-password pve123
+
 # Log du lieu grpc truoc khi gui, moi file chua 5p du lieu
 # Dong goi lai ai_bot
 # Tao room, timeout 30p, set password, num player toi da

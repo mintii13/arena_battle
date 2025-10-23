@@ -100,7 +100,7 @@ class ArenaBattleServicer(arena_pb2_grpc.ArenaBattleServiceServicer):
             logger.info(f"🔍 DEBUG: Room state before add: {len(room_state.bots)} bots")
             
             # ⭐ FIX: Always add AI bot FIRST
-            bot_id = room_result['bot_id']
+            bot_id = room_result.get('bot_id') or room_result.get('player_id')
             room_state.add_bot(player_id, actual_bot_name, room_result['arena_config'], room_id, bot_id)
             
             logger.info(f"🔍 DEBUG: Room state after add AI bot: {len(room_state.bots)} bots")

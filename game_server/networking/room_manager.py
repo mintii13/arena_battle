@@ -180,6 +180,7 @@ class RoomManager:
             'success': True,
             'room_id': room_id,
             'bot_id': bot_id,
+            'player_id': player_id,
             'message': status_msg,
             'players_in_room': players_count,
             'arena_config': room.arena_config 
@@ -217,6 +218,8 @@ class RoomManager:
         for _ in range(count):
             bot_id = game_state.add_dummy_bot(room_id, room.arena_config)
             room.dummy_bot_ids.append(bot_id)
+
+
         
         logger.info(f"🤖 Respawned {count} dummy bots in room {room_id}")
     
@@ -272,7 +275,7 @@ class RoomManager:
             'arena_config': room.arena_config,
             'is_active': is_active,  # ⭐ FIXED logic
             'status': 'active' if is_active else 'waiting',
-            'is_pve_mode': room.is_pve_mode,  # ⭐ ADD field
+            'is_pve_mode': room.is_pve_mode,  # ⭐ ADD fields
             'dummy_count': len(room.dummy_bot_ids)  # ⭐ ADD field
         }
     
