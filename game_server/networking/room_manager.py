@@ -35,7 +35,7 @@ class RoomManager:
     """Room-based system replacing matchmaking"""
     _global_bot_id = 1
 
-    def __init__(self, rooms_config_path: str = "botvsplayer/rooms.json"):
+    def __init__(self, rooms_config_path: str = "arena_battle/rooms.json"):
         self.rooms_config_path = rooms_config_path
         self.rooms: Dict[str, Room] = {}
         self.player_to_room: Dict[str, str] = {}
